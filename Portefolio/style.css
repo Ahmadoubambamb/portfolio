@@ -1200,7 +1200,7 @@ section > .container {
   gap: 2px;
   border-radius: 15px 15px 0 0;
   overflow: hidden;
-  height: 180px;
+  height: 300px;
 }
 
 .activity-image-item {
