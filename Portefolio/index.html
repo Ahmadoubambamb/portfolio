@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | Ahmadou Bamba Mboup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <span class="logo-text">ABM</span>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="#accueil" class="nav-link">Accueil</a></li>
+        <li><a href="#apropos" class="nav-link">À propos</a></li>
+        <li><a href="#competences" class="nav-link">Compétences</a></li>
+        <li><a href="#projets" class="nav-link">Projets</a></li>
+        <li><a href="#activites" class="nav-link">Activités</a></li>
+        <li><a href="#formation" class="nav-link">Formation</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Section Hero / Accueil -->
+  <section id="accueil" class="hero">
+    <div class="hero-background">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">
+            <span class="greeting">Bonjour, je suis</span>
+            <span class="name">Ahmadou Bamba Mboup</span>
+          </h1>
+          <p class="hero-subtitle">
+            <span class="hero-subtitle-wrapper">Développeur Web & Mobile | Futur Data Scientist</span>
+          </p>
+          <p class="hero-description">
+            Étudiant en Master 1 Gestion des Données et Ingénierie Logiciel à l'UGB
+          </p>
+          
+          <div class="hero-buttons">
+            <a href="#projets" class="btn btn-primary">Voir mes projets</a>
+            <a href="#contact" class="btn btn-secondary">Me contacter</a>
+            <a href="#" class="btn btn-download" id="downloadCV">
+              <i class="fas fa-download"></i> Télécharger mon CV
+            </a>
+          </div>
+          <div class="social-links">
+            <a href="https://github.com/Ahmadoubambamb" target="_blank" class="social-link">
+              <i class="fab fa-github"></i>
+            </a>
+            <a href="mailto:mboup.ahmadou-bamba@ugb.edu.sn" class="social-link">
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a href="tel:+221781445619" class="social-link">
+              <i class="fas fa-phone"></i>
+            </a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <div class="profile-card">
+            <img src="images/monimage1.jpg" alt="Ahmadou Bamba Mboup" class="profile-photo">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- Section À propos -->
+  <section id="apropos" class="about">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">À propos de moi</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            Étudiant en Master 1 Gestion des Données et Ingénierie Logiciel à l'UGB, je suis passionné par le développement logiciel, l'IA et l'administration de bases de données. Je m'oriente vers la data science avec une forte base en programmation système, web et mobile.
+          </p>
+          <p>
+            Mon objectif est de combiner mes compétences techniques en développement avec une expertise approfondie en analyse de données et intelligence artificielle pour créer des solutions innovantes.
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Projets réalisés</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="stat-number">M1</div>
+            <div class="stat-label">Niveau d'étude actuel</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fas fa-language"></i>
+            </div>
+            <div class="stat-number">6+</div>
+            <div class="stat-label">Langages de programmation maîtrisés</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Compétences -->
+  <section id="competences" class="skills">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Mes compétences</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="skills-grid">
+        <!-- Les compétences seront ajoutées dynamiquement -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Projets -->
+  <section id="projets" class="projects">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Mes projets</h2>
+        <div class="title-underline"></div>
+        <p class="section-subtitle">Voici quelques projets que j'ai réalisés</p>
+      </div>
+      <div class="projects-grid">
+        <!-- Projet 1 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="images/senelec-predict.jpg" alt="Portail UGB">
+          </div>
+          <h3 class="project-title">Portail UGB</h3>
+          <p class="project-description">Refonte du portail d'inscription universitaire avec une interface moderne et intuitive.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Web</span>
+            <span class="tech-tag">PHP</span>
+          </div>
+          <a href="https://github.com/Ahmadoubambamb/ProjetDevWeb2024/tree/main/PortailUGB" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> Voir sur GitHub
+          </a>
+        </div>
+
+        <!-- Projet 2 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="images/senemploiAPK.jpg" alt="SenEmploi">
+          </div>
+          <h3 class="project-title">SenEmploi</h3>
+          <p class="project-description">Application mobile de recherche d'emploi développée avec Flutter et Firebase.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Flutter</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Mobile</span>
+          </div>
+          <a href="https://github.com/Ahmadoubambamb/notre_projet_senEmploi.git" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> Voir sur GitHub
+          </a>
+        </div>
+
+        <!-- Projet 3 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="images/senelec-predict.jpg" alt="IA - Perceptrons">
+          </div>
+          <h3 class="project-title">IA - Perceptrons</h3>
+          <p class="project-description">Deux mini-projets : perceptron simple et multi-couche pour la classification.</p>
+          <div class="project-tech">
+            <span class="tech-tag">IA</span>
+            <span class="tech-tag">Python</span>
+          </div>
+          <a href="#" class="project-link">
+            <i class="fas fa-eye"></i> En savoir plus
+          </a>
+        </div>
+
+        <!-- Projet 4 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="images/senelec-predict.jpg" alt="Simulation SGBD">
+          </div>
+          <h3 class="project-title">Simulation SGBD</h3>
+          <p class="project-description">Développement en C d'un simulateur de base de données relationnelle.</p>
+          <div class="project-tech">
+            <span class="tech-tag">C</span>
+            <span class="tech-tag">SGBD</span>
+          </div>
+          <a href="#" class="project-link">
+            <i class="fas fa-eye"></i> En savoir plus
+          </a>
+        </div>
+
+        <!-- Projet 5 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="images/senelec-predict.jpg" alt="POO Qt/C++ - Table de hachage">
+          </div>
+          <h3 class="project-title">POO Qt/C++ - Table de hachage</h3>
+          <p class="project-description">Recherche de voitures avec Qt/C++ en utilisant une table de hachage.</p>
+          <div class="project-tech">
+            <span class="tech-tag">C++</span>
+            <span class="tech-tag">Qt</span>
+            <span class="tech-tag">POO</span>
+          </div>
+          <a href="https://github.com/Ahmadoubambamb/Projet_POO/tree/main" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> Voir sur GitHub
+          </a>
+        </div>
+        <!-- Projet 6 -->
+        <div class="project-card">
+          <div class="project-image">
+            <img src="images/senelec-predict.jpg" alt="Prediction de consommation d'électricité">
+          </div>
+          <h3 class="project-title">Prediction de consommation d'electicite</h3>
+          <p class="project-description">Time series prediction of electricity consumption using LSTM. Dataset from Kaggle. </p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">LSTM</span>
+            <span class="tech-tag">Time Series</span>
+            <span class="tech-tag">Data Analysis</span>
+            <span class="tech-tag">Kaggle</span>
+          </div>
+          <a href="https://github.com/Ahmadoubambamb/Senelec-predict-AI" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> Voir sur GitHub
+          </a>
+        </div>
+
+        <!-- Zone pour nouveaux projets -->
+        <div class="project-card project-placeholder">
+          <div class="project-icon">
+            <i class="fas fa-plus"></i>
+          </div>
+          <h3 class="project-title">Nouveau projet</h3>
+          <p class="project-description">Ajoutez votre prochain projet ici...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Activités -->
+  <section id="activites" class="activities">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Mes activités</h2>
+        <div class="title-underline"></div>
+        <p class="section-subtitle">Découvrez mes participations et événements</p>
+      </div>
+      <div class="activities-grid">
+        <!-- Les activités seront ajoutées dynamiquement -->
+        <div class="activity-card activity-placeholder">
+          <div class="activity-icon">
+            <i class="fas fa-plus"></i>
+          </div>
+          <h3 class="activity-title">Nouvelle activité</h3>
+          <p class="activity-description">Ajoutez votre prochaine activité ici...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Formation -->
+  <section id="formation" class="education">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Formation</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="timeline">
+        <!-- Les formations seront ajoutées dynamiquement -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Contact -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Contactez-moi</h2>
+        <div class="title-underline"></div>
+        <p class="section-subtitle">N'hésitez pas à me contacter pour toute opportunité</p>
+      </div>
+      <div class="contact-content">
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Email</h4>
+              <a href="mailto:mboup.ahmadou-bamba@ugb.edu.sn">mboup.ahmadou-bamba@ugb.edu.sn</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Téléphone</h4>
+              <a href="tel:+221781445619">+221 78 144 56 19</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-github"></i>
+            </div>
+            <div class="contact-details">
+              <h4>GitHub</h4>
+              <a href="https://github.com/Ahmadoubambamb" target="_blank">Ahmadoubambamb</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-linkedin"></i>
+            </div>
+            <div class="contact-details">
+              <h4>LinkedIn</h4>
+              <a href="https://www.linkedin.com/in/ahmadou-bamba-mboup-b587a6309" target="_blank">Ahmadou Bamba Mboup</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-details">
+              <h4>Localisation</h4>
+              <p>Saint-Louis, Sénégal</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">
+              <i class="fab fa-whatsapp"></i>
+            </div>
+            <div class="contact-details">
+              <h4>WhatsApp</h4>
+              <a href="https://wa.me/221781445619" target="_blank">+221 78 144 56 19</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 Ahmadou Bamba Mboup. Tous droits réservés.</p>
+      <div class="footer-links">
+        <a href="https://github.com/Ahmadoubambamb" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/ahmadou-bamba-mboup-b587a6309" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="mailto:mboup.ahmadou-bamba@ugb.edu.sn"><i class="fas fa-envelope"></i></a>
+        <a href="tel:+221781445619"><i class="fas fa-phone"></i></a>
+        <a href="https://wa.me/221781445619" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="style.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
