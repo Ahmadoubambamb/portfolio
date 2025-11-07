@@ -47,29 +47,46 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, observerOptions);
 
-// Observer les éléments à animer
-document.querySelectorAll('.project-card, .skill-category, .stat-card, .timeline-item, .contact-item').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(30px)';
-  el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-  observer.observe(el);
-});
+// Observer les éléments à animer (désactivé sur mobile pour performance)
+const shouldAnimate = window.innerWidth > 768 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Navbar change on scroll avec effet 3D
+if (shouldAnimate) {
+  document.querySelectorAll('.project-card, .skill-category, .stat-card, .timeline-item, .contact-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    observer.observe(el);
+  });
+} else {
+  // Sur mobile, afficher directement sans animation
+  document.querySelectorAll('.project-card, .skill-category, .stat-card, .timeline-item, .contact-item').forEach(el => {
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  });
+}
+
+// Navbar change on scroll (optimisé)
 let lastScroll = 0;
+let scrollTimeout;
 const navbar = document.querySelector('.navbar');
 
 window.addEventListener('scroll', () => {
-  const currentScroll = window.pageYOffset;
+  // Throttle pour améliorer les performances
+  if (scrollTimeout) return;
+  
+  scrollTimeout = setTimeout(() => {
+    const currentScroll = window.pageYOffset;
 
-  if (currentScroll > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
+    if (currentScroll > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
 
-  lastScroll = currentScroll;
-});
+    lastScroll = currentScroll;
+    scrollTimeout = null;
+  }, 10);
+}, { passive: true });
 
 // Téléchargement du CV
 const downloadCVBtn = document.getElementById('downloadCV');
@@ -95,16 +112,26 @@ if (downloadCVBtn) {
   });
 }
 
-// Effet parallaxe sur les shapes
+// Effet parallaxe sur les shapes (désactivé sur mobile pour performance)
+let lastScrollTime = 0;
+const scrollThrottle = 16; // ~60fps
+
 window.addEventListener('scroll', () => {
+  const now = Date.now();
+  if (now - lastScrollTime < scrollThrottle) return;
+  lastScrollTime = now;
+
+  // Désactiver sur mobile
+  if (window.innerWidth <= 768) return;
+
   const scrolled = window.pageYOffset;
   const shapes = document.querySelectorAll('.shape');
   
   shapes.forEach((shape, index) => {
-    const speed = 0.5 + (index * 0.1);
-    shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+    const speed = 0.3 + (index * 0.05);
+    shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.05}deg)`;
   });
-});
+}, { passive: true });
 
 // Compteur animé pour les stats
 const animateCounter = (element, target) => {
@@ -142,9 +169,9 @@ document.querySelectorAll('.stat-card').forEach(card => {
   statsObserver.observe(card);
 });
 
-// Effet de typing pour le nom (optionnel)
+// Effet de typing pour le nom (désactivé sur mobile pour performance)
 const nameElement = document.querySelector('.name');
-if (nameElement) {
+if (nameElement && window.innerWidth > 768) {
   const text = nameElement.textContent;
   nameElement.textContent = '';
   let i = 0;
@@ -153,7 +180,7 @@ if (nameElement) {
     if (i < text.length) {
       nameElement.textContent += text.charAt(i);
       i++;
-      setTimeout(typeWriter, 100);
+      setTimeout(typeWriter, 80);
     }
   };
   
