@@ -82,15 +82,15 @@ if (downloadCVBtn) {
     // Note: Vous devrez ajouter votre fichier CV dans le dossier
     // Pour l'instant, on simule le téléchargement
     const link = document.createElement('a');
-    link.href = 'cv.pdf'; // Remplacez par le chemin de votre CV
-    link.download = 'CV_Ahmadou_Bamba_Mboup.pdf';
+    link.href = 'images/monCV.pdf'; // Remplacez par le chemin de votre CV
+    link.download = 'monCV.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     
     // Si le fichier n'existe pas, afficher un message
     link.addEventListener('error', () => {
-      alert('Veuillez ajouter votre fichier CV (cv.pdf) dans le dossier du portfolio.');
+      alert('Suis désolé, je n\'ai pas encore ajouté mon CV.');
     });
   });
 }
