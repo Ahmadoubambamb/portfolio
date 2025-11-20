@@ -1,0 +1,6 @@
+/images/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/* Optionnel: forcer revalidation pour la page d'accueil */
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate

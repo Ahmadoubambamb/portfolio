@@ -1116,9 +1116,11 @@ function handleChangeProfile(event) {
   const profilePhoto = document.querySelector('.profile-photo');
   
   if (profilePhoto) {
-    localStorage.setItem('profilePhotoPath', 'images/' + photoName);
-    profilePhoto.src = 'images/' + photoName;
-    alert('Photo de profil changée ! Assurez-vous que l\'image "' + photoName + '" est dans le dossier images/.');
+    // Ajouter un cache-buster pour forcer le navigateur à récupérer la nouvelle image
+    const newPath = 'images/' + photoName + '?v=' + Date.now();
+    localStorage.setItem('profilePhotoPath', newPath);
+    profilePhoto.src = newPath;
+    alert('Photo de profil changée localement ! Assurez-vous que l\'image "' + photoName + '" est dans le dossier images/ du site et redeployez pour que tous les visiteurs la voient.');
   }
 
   document.getElementById('changeProfileForm').reset();
@@ -1666,7 +1668,12 @@ function loadProfilePhoto() {
   if (savedPath) {
     const profilePhoto = document.querySelector('.profile-photo');
     if (profilePhoto) {
-      profilePhoto.src = savedPath;
+      // Si le chemin sauvegardé n'a pas de cache-buster, en ajouter un pour forcer le reload
+      let src = savedPath;
+      if (!src.includes('?v=')) {
+        src = src + (src.includes('?') ? '&' : '?') + 'v=' + Date.now();
+      }
+      profilePhoto.src = src;
     }
   }
 }
