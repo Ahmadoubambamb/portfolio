@@ -1099,7 +1099,7 @@ function previewProfilePhoto(input) {
 }
 
 // Gérer le changement de photo de profil
-function handleChangeProfile(event) {
+async function handleChangeProfile(event) {
   event.preventDefault();
   if (!isAdmin()) {
     alert('Vous devez être connecté en tant qu\'administrateur.');
@@ -1114,13 +1114,91 @@ function handleChangeProfile(event) {
 
   const photoName = photoFile.name;
   const profilePhoto = document.querySelector('.profile-photo');
-  
   if (profilePhoto) {
-    // Ajouter un cache-buster pour forcer le navigateur à récupérer la nouvelle image
-    const newPath = 'images/' + photoName + '?v=' + Date.now();
-    localStorage.setItem('profilePhotoPath', newPath);
-    profilePhoto.src = newPath;
-    alert('Photo de profil changée localement ! Assurez-vous que l\'image "' + photoName + '" est dans le dossier images/ du site et redeployez pour que tous les visiteurs la voient.');
+    // Option: proposer de committer directement l'image dans le repo GitHub
+    const commitNow = confirm('Voulez-vous committer cette image directement dans le dépôt GitHub pour que le changement soit global ? (Nécessite un Personal Access Token)');
+
+    if (commitNow) {
+      const token = prompt('Collez votre GitHub Personal Access Token (don\'t save) :');
+      if (!token) {
+        alert('Token non fourni — l\'image sera seulement mise à jour localement.');
+      } else {
+        try {
+          // Lire le fichier en base64
+          const dataUrl = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(photoFile);
+          });
+          const base64Content = dataUrl.split(',')[1];
+
+          // Informations du repo — ajustez si besoin
+          const GITHUB_OWNER = 'Ahmadoubambamb';
+          const GITHUB_REPO = 'portfolio';
+          const BRANCH = 'main';
+          const path = 'images/' + photoName;
+
+          // Fonction interne pour obtenir le sha si le fichier existe
+          const getSha = async () => {
+            const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`;
+            const resp = await fetch(url, {
+              headers: {
+                'Authorization': 'token ' + token,
+                'Accept': 'application/vnd.github+json'
+              }
+            });
+            if (resp.status === 200) {
+              const j = await resp.json();
+              return j.sha;
+            }
+            return null;
+          };
+
+          const sha = await getSha();
+
+          // Préparer la requête PUT pour créer/update le fichier
+          const putUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(path)}`;
+          const body = {
+            message: `Update profile photo: ${photoName}`,
+            content: base64Content,
+            branch: BRANCH
+          };
+          if (sha) body.sha = sha;
+
+          const putResp = await fetch(putUrl, {
+            method: 'PUT',
+            headers: {
+              'Authorization': 'token ' + token,
+              'Accept': 'application/vnd.github+json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+          });
+
+          if (putResp.status === 201 || putResp.status === 200) {
+            // Succès — Netlify va déclencher un deploy si configuré
+            const newPath = 'images/' + photoName + '?v=' + Date.now();
+            localStorage.setItem('profilePhotoPath', newPath);
+            profilePhoto.src = newPath;
+            alert('Image commitée sur GitHub avec succès. Netlify/CI déclenchera un déploiement pour rendre le changement public.');
+          } else {
+            const err = await putResp.json().catch(() => ({}));
+            console.error('GitHub upload error', err);
+            alert('Erreur lors du commit sur GitHub : ' + (err.message || putResp.status));
+          }
+        } catch (e) {
+          console.error(e);
+          alert('Une erreur est survenue lors de l\'upload vers GitHub. Voir console pour détails.');
+        }
+      }
+    }
+
+    // Toujours mettre à jour localement avec cache-buster pour affichage immédiat
+    const newPathLocal = 'images/' + photoName + '?v=' + Date.now();
+    localStorage.setItem('profilePhotoPath', newPathLocal);
+    profilePhoto.src = newPathLocal;
+    alert('Photo de profil changée localement !');
   }
 
   document.getElementById('changeProfileForm').reset();
