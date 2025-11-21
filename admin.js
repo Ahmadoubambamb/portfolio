@@ -2,8 +2,8 @@
 // SYSTÈME D'ADMINISTRATION COMPLET
 // ============================================
 
-// Configuration - CHANGEZ CE MOT DE PASSE !
-const ADMIN_PASSWORD = 'mamekhady1'; // Changez ce mot de passe !
+
+const ADMIN_PASSWORD = 'mamekhady1'; 
 
 // Fonction de hash simple (pour un portfolio statique)
 function hashPassword(password) {
@@ -1119,78 +1119,36 @@ async function handleChangeProfile(event) {
     const commitNow = confirm('Voulez-vous committer cette image directement dans le dépôt GitHub pour que le changement soit global ? (Nécessite un Personal Access Token)');
 
     if (commitNow) {
-      const token = prompt('Collez votre GitHub Personal Access Token (don\'t save) :');
-      if (!token) {
-        alert('Token non fourni — l\'image sera seulement mise à jour localement.');
-      } else {
-        try {
-          // Lire le fichier en base64
-          const dataUrl = await new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(photoFile);
-          });
-          const base64Content = dataUrl.split(',')[1];
+      // Envoi à la Netlify Function server-side. Le token GitHub doit être configuré
+      // comme variable d'environnement `GITHUB_TOKEN` dans les settings Netlify.
+      try {
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(photoFile);
+        });
+        const base64Content = dataUrl.split(',')[1];
 
-          // Informations du repo — ajustez si besoin
-          const GITHUB_OWNER = 'Ahmadoubambamb';
-          const GITHUB_REPO = 'portfolio';
-          const BRANCH = 'main';
-          const path = 'images/' + photoName;
+        const resp = await fetch('/.netlify/functions/uploadProfile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: photoName, content: base64Content })
+        });
 
-          // Fonction interne pour obtenir le sha si le fichier existe
-          const getSha = async () => {
-            const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(path)}?ref=${BRANCH}`;
-            const resp = await fetch(url, {
-              headers: {
-                'Authorization': 'token ' + token,
-                'Accept': 'application/vnd.github+json'
-              }
-            });
-            if (resp.status === 200) {
-              const j = await resp.json();
-              return j.sha;
-            }
-            return null;
-          };
-
-          const sha = await getSha();
-
-          // Préparer la requête PUT pour créer/update le fichier
-          const putUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(path)}`;
-          const body = {
-            message: `Update profile photo: ${photoName}`,
-            content: base64Content,
-            branch: BRANCH
-          };
-          if (sha) body.sha = sha;
-
-          const putResp = await fetch(putUrl, {
-            method: 'PUT',
-            headers: {
-              'Authorization': 'token ' + token,
-              'Accept': 'application/vnd.github+json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-          });
-
-          if (putResp.status === 201 || putResp.status === 200) {
-            // Succès — Netlify va déclencher un deploy si configuré
-            const newPath = 'images/' + photoName + '?v=' + Date.now();
-            localStorage.setItem('profilePhotoPath', newPath);
-            profilePhoto.src = newPath;
-            alert('Image commitée sur GitHub avec succès. Netlify/CI déclenchera un déploiement pour rendre le changement public.');
-          } else {
-            const err = await putResp.json().catch(() => ({}));
-            console.error('GitHub upload error', err);
-            alert('Erreur lors du commit sur GitHub : ' + (err.message || putResp.status));
-          }
-        } catch (e) {
-          console.error(e);
-          alert('Une erreur est survenue lors de l\'upload vers GitHub. Voir console pour détails.');
+        const json = await resp.json().catch(() => ({}));
+        if (resp.ok) {
+          const newPath = 'images/' + photoName + '?v=' + Date.now();
+          localStorage.setItem('profilePhotoPath', newPath);
+          profilePhoto.src = newPath;
+          alert('Image commitée sur GitHub via la fonction server-side. Netlify déclenchera un deploy pour rendre la modification publique.');
+        } else {
+          console.error('Server error', json);
+          alert('Erreur serveur lors de l\'upload : ' + (json.error || resp.status));
         }
+      } catch (e) {
+        console.error(e);
+        alert('Erreur lors de l\'appel de la fonction server-side. Voir console pour détails.');
       }
     }
 
