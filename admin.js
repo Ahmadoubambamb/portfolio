@@ -1789,18 +1789,37 @@ function addProfilePhotoButton() {
 
 // Charger la photo de profil sauvegardée
 function loadProfilePhoto() {
-  const savedPath = localStorage.getItem('profilePhotoPath');
-  if (savedPath) {
-    const profilePhoto = document.querySelector('.profile-photo');
-    if (profilePhoto) {
-      // Si le chemin sauvegardé n'a pas de cache-buster, en ajouter un pour forcer le reload
-      let src = savedPath;
-      if (!src.includes('?v=')) {
-        src = src + (src.includes('?') ? '&' : '?') + 'v=' + Date.now();
+  const profilePhoto = document.querySelector('.profile-photo');
+  if (!profilePhoto) return;
+
+  // 1) Essayer de récupérer profile.json côté serveur — c'est la source de vérité pour tous les visiteurs
+  fetch('/profile.json', { cache: 'no-store' })
+    .then(resp => {
+      if (!resp.ok) throw new Error('no profile.json');
+      return resp.json();
+    })
+    .then(json => {
+      if (json && json.photo) {
+        profilePhoto.src = json.photo + '?v=' + Date.now();
+        return;
       }
-      profilePhoto.src = src;
-    }
-  }
+      // fallback to localStorage
+      const savedPath = localStorage.getItem('profilePhotoPath');
+      if (savedPath) {
+        let src = savedPath;
+        if (!src.includes('?v=')) src = src + (src.includes('?') ? '&' : '?') + 'v=' + Date.now();
+        profilePhoto.src = src;
+      }
+    })
+    .catch(() => {
+      // Si pas de profile.json ou erreur, utiliser localStorage si présent
+      const savedPath = localStorage.getItem('profilePhotoPath');
+      if (savedPath) {
+        let src = savedPath;
+        if (!src.includes('?v=')) src = src + (src.includes('?') ? '&' : '?') + 'v=' + Date.now();
+        profilePhoto.src = src;
+      }
+    });
 }
 
 // Mettre à jour l'interface admin

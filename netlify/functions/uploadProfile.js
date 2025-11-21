@@ -53,7 +53,41 @@ exports.handler = async (event, context) => {
     const putJson = await putRes.json().catch(() => ({}));
 
     if (putRes.status === 201 || putRes.status === 200) {
-      return { statusCode: 200, body: JSON.stringify({ ok: true, result: putJson }) };
+      // Après avoir uploadé l'image, mettre à jour (ou créer) profile.json
+      try {
+        const profilePath = 'profile.json';
+        const profileObj = { photo: `images/${filename}` };
+        const profileContent = Buffer.from(JSON.stringify(profileObj)).toString('base64');
+
+        // Vérifier si profile.json existe
+        let profileSha = null;
+        try {
+          const getProfileUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(profilePath)}?ref=${BRANCH}`;
+          const getProfileRes = await fetch(getProfileUrl, { headers });
+          if (getProfileRes.status === 200) {
+            const pj = await getProfileRes.json();
+            profileSha = pj.sha;
+          }
+        } catch (e) {
+          // ignore
+        }
+
+        const putProfileUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(profilePath)}`;
+        const putProfileBody = {
+          message: `Update profile.json for profile photo: ${filename}`,
+          content: profileContent,
+          branch: BRANCH
+        };
+        if (profileSha) putProfileBody.sha = profileSha;
+
+        const putProfileRes = await fetch(putProfileUrl, { method: 'PUT', headers, body: JSON.stringify(putProfileBody) });
+        const putProfileJson = await putProfileRes.json().catch(() => ({}));
+        // ignore errors from profile update for now, but include in response
+        return { statusCode: 200, body: JSON.stringify({ ok: true, result: putJson, profileResult: putProfileJson }) };
+      } catch (e) {
+        console.error('Error updating profile.json', e);
+        return { statusCode: 200, body: JSON.stringify({ ok: true, result: putJson, profileResult: { error: 'failed to update profile.json' } }) };
+      }
     }
 
     return { statusCode: putRes.status || 500, body: JSON.stringify({ error: 'GitHub API error', details: putJson }) };
