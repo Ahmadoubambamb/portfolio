@@ -1343,6 +1343,27 @@ section > .container {
   height: 300px;
 }
 
+/* Quand un conteneur utilise le slider (plusieurs images qui défilent),
+   on positionne les éléments en absolute pour qu'une seule image occupe
+   la totalité du conteneur. Le JS ajoute la classe `.slider` au conteneur. */
+.activity-images-container.slider {
+  display: block;
+  position: relative;
+  height: 300px;
+}
+.activity-images-container.slider .activity-image-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.activity-images-container.slider .activity-image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .activity-image-item {
   width: 100%;
   height: 100%;
@@ -1356,6 +1377,38 @@ section > .container {
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease, filter 0.3s ease;
+}
+
+/* Styles pour les carrousels de projets */
+.project-images-container {
+  border-radius: 15px;
+  overflow: hidden;
+  height: 220px;
+  position: relative;
+}
+.project-image-item {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.project-image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.project-images-container .project-image-item:first-child {
+  display: block;
+}
+
+/* When slider class added (multiple images), ensure absolute positioning */
+.project-images-container.slider {
+  position: relative;
+}
+.project-images-container.slider .project-image-item {
+  position: absolute;
 }
 
 .activity-card:hover .activity-image-item {

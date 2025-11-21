@@ -143,9 +143,17 @@ function renderProjects() {
     ).join('');
 
     const projectImage = project.image || 'images/senelec-predict.jpg';
+    // Supporter plusieurs images par projet (image principale + additionalImages)
+    const allProjectImages = [projectImage].concat(project.additionalImages || []).filter(Boolean).slice(0,5);
+    const projectImagesHTML = allProjectImages.map(img => `
+        <div class="project-image-item">
+          <img src="${img}" alt="${project.title}">
+        </div>
+      `).join('');
+
     projectCard.innerHTML = `
-      <div class="project-image">
-        <img src="${projectImage}" alt="${project.title}">
+      <div class="project-images-container">
+        ${projectImagesHTML}
       </div>
       ${isAdmin() ? `<button class="delete-project-btn" onclick="deleteProject(${project.id})" title="Supprimer">
         <i class="fas fa-times"></i>
@@ -166,6 +174,9 @@ function renderProjects() {
     }
   });
 
+  // Initialiser les sliders d'images pour les projets
+  initImageSliders('.projects-grid .project-images-container', 1000);
+
   const placeholder = projectsGrid.querySelector('.project-placeholder');
   if (placeholder) {
     if (isAdmin()) {
@@ -176,6 +187,38 @@ function renderProjects() {
       placeholder.style.display = 'none';
     }
   }
+}
+
+// Initialiser les sliders d'images pour une liste de conteneurs
+function initImageSliders(selector, intervalMs = 1000) {
+  const containers = document.querySelectorAll(selector);
+  containers.forEach(container => {
+    // Clear existing interval if any
+    if (container._sliderInterval) {
+      clearInterval(container._sliderInterval);
+      container._sliderInterval = null;
+    }
+
+    const items = Array.from(container.querySelectorAll('.project-image-item, .activity-image-item'));
+    if (items.length <= 1) return;
+
+    // Activate slider mode via class so CSS can position items absolutely
+    container.classList.add('slider');
+
+    // Hide all except first
+    items.forEach((it, idx) => {
+      it.style.display = idx === 0 ? 'block' : 'none';
+      // ensure item fills container when in slider mode
+      it.style.position = idx === 0 ? (it.style.position || '') : 'absolute';
+    });
+
+    let current = 0;
+    container._sliderInterval = setInterval(() => {
+      items[current].style.display = 'none';
+      current = (current + 1) % items.length;
+      items[current].style.display = 'block';
+    }, intervalMs);
+  });
 }
 
 // ============================================
@@ -738,6 +781,9 @@ function renderActivities() {
       placeholder.style.display = 'none';
     }
   }
+
+  // Initialiser les sliders d'images pour les activités
+  initImageSliders('.activities-grid .activity-images-container', 1000);
 }
 
 // ============================================
@@ -903,9 +949,20 @@ function createAddProjectModal() {
           <textarea id="projectDescription" rows="4" required></textarea>
         </div>
         <div class="admin-form-group">
-          <label for="projectImage">Image du projet (chemin relatif)</label>
-          <input type="text" id="projectImage" placeholder="images/senelec-predict.jpg" value="images/senelec-predict.jpg">
-          <small style="color: #666; font-size: 0.85rem;">Ex: images/nom-image.jpg</small>
+          <label for="projectImage">Image principale (fichier)</label>
+          <input type="file" id="projectImage" accept="image/*" onchange="previewProjectImage(1, this)">
+          <div id="projectPreview1" style="margin-top: 10px;"></div>
+          <small style="color: #666; font-size: 0.85rem;">Sélectionnez un fichier. Après ajout, assurez-vous que le fichier est présent dans le dossier images/ du site ou utilisez la fonction serveur pour commit.</small>
+        </div>
+        <div class="admin-form-group">
+          <label for="projectImage2">Image supplémentaire 1 (optionnel)</label>
+          <input type="file" id="projectImage2" accept="image/*" onchange="previewProjectImage(2, this)">
+          <div id="projectPreview2" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="projectImage3">Image supplémentaire 2 (optionnel)</label>
+          <input type="file" id="projectImage3" accept="image/*" onchange="previewProjectImage(3, this)">
+          <div id="projectPreview3" style="margin-top: 10px;"></div>
         </div>
         <div class="admin-form-group">
           <label for="projectTechnologies">Technologies (séparées par des virgules)</label>
@@ -927,6 +984,20 @@ function createAddProjectModal() {
   document.body.appendChild(modal);
 }
 
+// Prévisualiser les images sélectionnées pour les projets
+function previewProjectImage(num, input) {
+  const preview = document.getElementById(`projectPreview${num}`);
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 5px;">`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  } else {
+    preview.innerHTML = '';
+  }
+}
+
 // Gérer l'ajout de projet
 function handleAddProject(event) {
   event.preventDefault();
@@ -940,17 +1011,35 @@ function handleAddProject(event) {
     .map(t => t.trim())
     .filter(t => t);
 
+  // Récupérer les fichiers sélectionnés (si fournis)
+  const imageFile1 = document.getElementById('projectImage').files ? document.getElementById('projectImage').files[0] : null;
+  const imageFile2 = document.getElementById('projectImage2').files ? document.getElementById('projectImage2').files[0] : null;
+  const imageFile3 = document.getElementById('projectImage3').files ? document.getElementById('projectImage3').files[0] : null;
+
+  const additionalImages = [];
+  if (imageFile2) additionalImages.push('images/' + imageFile2.name);
+  if (imageFile3) additionalImages.push('images/' + imageFile3.name);
+
   const projectData = {
     title: document.getElementById('projectTitle').value,
     description: document.getElementById('projectDescription').value,
-    image: document.getElementById('projectImage').value || 'images/senelec-predict.jpg',
+    image: imageFile1 ? ('images/' + imageFile1.name) : (document.getElementById('projectImage').value || 'images/senelec-predict.jpg'),
+    additionalImages: additionalImages,
     technologies: technologies,
     link: document.getElementById('projectLink').value || '#',
     linkText: document.getElementById('projectLinkText').value || 'En savoir plus'
   };
 
   if (addProject(projectData)) {
+    // Inform the admin to upload the files to the repo (or use the server-side function)
+    const names = [imageFile1, imageFile2, imageFile3].filter(Boolean).map(f => f.name);
+    if (names.length > 0) {
+      alert('Note: Assurez-vous que les images (' + names.join(', ') + ') sont présentes dans le dossier images/ du site (ou utilisez la fonction server-side pour commit).');
+    }
     document.getElementById('addProjectForm').reset();
+    document.getElementById('projectPreview1').innerHTML = '';
+    document.getElementById('projectPreview2').innerHTML = '';
+    document.getElementById('projectPreview3').innerHTML = '';
     closeAddProjectModal();
     alert('Projet ajouté avec succès !');
   }
