@@ -99,8 +99,8 @@ if (downloadCVBtn) {
     // Note: Vous devrez ajouter votre fichier CV dans le dossier
     // Pour l'instant, on simule le téléchargement
     const link = document.createElement('a');
-    link.href = 'images/monCV.pdf'; // Remplacez par le chemin de votre CV
-    link.download = 'monCV.pdf';
+    link.href = 'images/MonCv-pro.pdf'; // Remplacez par le chemin de votre CV
+    link.download = 'MonCv-pro.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
