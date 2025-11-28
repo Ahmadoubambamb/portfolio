@@ -18,8 +18,15 @@ exports.handler = async (event, context) => {
     const path = `images/${filename}`;
 
     const token = process.env.GITHUB_TOKEN;
+    const CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME || 'dqd3icdk4';
+    const CLOUD_KEY = process.env.CLOUDINARY_API_KEY;
+    const CLOUD_SECRET = process.env.CLOUDINARY_API_SECRET;
     if (!token) {
       return { statusCode: 500, body: JSON.stringify({ error: 'Server misconfigured: GITHUB_TOKEN not set' }) };
+    }
+
+    if (!CLOUD_KEY || !CLOUD_SECRET) {
+      return { statusCode: 500, body: JSON.stringify({ error: 'Server misconfigured: CLOUDINARY_API_KEY or CLOUDINARY_API_SECRET not set' }) };
     }
 
     const headers = {
@@ -53,40 +60,86 @@ exports.handler = async (event, context) => {
     const putJson = await putRes.json().catch(() => ({}));
 
     if (putRes.status === 201 || putRes.status === 200) {
-      // Après avoir uploadé l'image, mettre à jour (ou créer) profile.json
+      // Nous avons mis le fichier dans le repo (si applicable) — maintenant uploader sur Cloudinary
       try {
-        const profilePath = 'profile.json';
-        const profileObj = { photo: `images/${filename}` };
-        const profileContent = Buffer.from(JSON.stringify(profileObj)).toString('base64');
+        // Détecter le mime type à partir du filename
+        const ext = filename.split('.').pop().toLowerCase();
+        const mimeMap = { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', gif: 'image/gif', webp: 'image/webp' };
+        const mime = mimeMap[ext] || 'application/octet-stream';
 
-        // Vérifier si profile.json existe
-        let profileSha = null;
-        try {
-          const getProfileUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(profilePath)}?ref=${BRANCH}`;
-          const getProfileRes = await fetch(getProfileUrl, { headers });
-          if (getProfileRes.status === 200) {
-            const pj = await getProfileRes.json();
-            profileSha = pj.sha;
-          }
-        } catch (e) {
-          // ignore
+        // Préparer la donnée sous forme data URL
+        const dataUrl = `data:${mime};base64,${content}`;
+
+        // Construire le body multipart/form-data manuellement
+        const boundary = '----CloudinaryFormBoundary' + Date.now();
+        let multipartBody = '';
+        multipartBody += `--${boundary}\r\n`;
+        multipartBody += `Content-Disposition: form-data; name="file"\r\n\r\n`;
+        multipartBody += dataUrl + `\r\n`;
+        multipartBody += `--${boundary}\r\n`;
+        multipartBody += `Content-Disposition: form-data; name="public_id"\r\n\r\n`;
+        multipartBody += `profile/${filename.replace(/\.[^/.]+$/, '')}` + `\r\n`;
+        multipartBody += `--${boundary}--\r\n`;
+
+        const cloudUrl = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+        const auth = Buffer.from(`${CLOUD_KEY}:${CLOUD_SECRET}`).toString('base64');
+
+        const cloudRes = await fetch(cloudUrl, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Basic ${auth}`,
+            'Content-Type': `multipart/form-data; boundary=${boundary}`
+          },
+          body: multipartBody
+        });
+
+        const cloudJson = await cloudRes.json().catch(() => ({}));
+        if (!cloudRes.ok) {
+          console.error('Cloudinary upload failed', cloudJson);
+          return { statusCode: 500, body: JSON.stringify({ error: 'Cloudinary upload failed', details: cloudJson }) };
         }
 
-        const putProfileUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(profilePath)}`;
-        const putProfileBody = {
-          message: `Update profile.json for profile photo: ${filename}`,
-          content: profileContent,
-          branch: BRANCH
-        };
-        if (profileSha) putProfileBody.sha = profileSha;
+        const imageUrl = cloudJson.secure_url;
 
-        const putProfileRes = await fetch(putProfileUrl, { method: 'PUT', headers, body: JSON.stringify(putProfileBody) });
-        const putProfileJson = await putProfileRes.json().catch(() => ({}));
-        // ignore errors from profile update for now, but include in response
-        return { statusCode: 200, body: JSON.stringify({ ok: true, result: putJson, profileResult: putProfileJson }) };
+        // Mettre à jour profile.json dans le repo (ou créer)
+        try {
+          const profilePath = 'profile.json';
+          const profileObj = { photo: imageUrl };
+          const profileContent = Buffer.from(JSON.stringify(profileObj)).toString('base64');
+
+          // Vérifier si profile.json existe
+          let profileSha = null;
+          try {
+            const getProfileUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(profilePath)}?ref=${BRANCH}`;
+            const getProfileRes = await fetch(getProfileUrl, { headers });
+            if (getProfileRes.status === 200) {
+              const pj = await getProfileRes.json();
+              profileSha = pj.sha;
+            }
+          } catch (e) {
+            // ignore
+          }
+
+          const putProfileUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${encodeURIComponent(profilePath)}`;
+          const putProfileBody = {
+            message: `Update profile.json for profile photo (Cloudinary): ${filename}`,
+            content: profileContent,
+            branch: BRANCH
+          };
+          if (profileSha) putProfileBody.sha = profileSha;
+
+          const putProfileRes = await fetch(putProfileUrl, { method: 'PUT', headers, body: JSON.stringify(putProfileBody) });
+          const putProfileJson = await putProfileRes.json().catch(() => ({}));
+
+          return { statusCode: 200, body: JSON.stringify({ ok: true, cloud: cloudJson, profileResult: putProfileJson }) };
+        } catch (e) {
+          console.error('Error updating profile.json', e);
+          return { statusCode: 200, body: JSON.stringify({ ok: true, cloud: cloudJson, profileResult: { error: 'failed to update profile.json' } }) };
+        }
+
       } catch (e) {
-        console.error('Error updating profile.json', e);
-        return { statusCode: 200, body: JSON.stringify({ ok: true, result: putJson, profileResult: { error: 'failed to update profile.json' } }) };
+        console.error('Cloudinary error', e);
+        return { statusCode: 500, body: JSON.stringify({ error: 'Cloudinary upload error', details: String(e) }) };
       }
     }
 

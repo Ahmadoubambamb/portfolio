@@ -369,7 +369,7 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2024 Ahmadou Bamba Mboup. Tous droits réservés.</p>
+      <p>&copy; 2025 Ahmadou Bamba Mboup. Tous droits réservés.</p>
       <div class="footer-links">
         <a href="https://github.com/Ahmadoubambamb" target="_blank"><i class="fab fa-github"></i></a>
         <a href="https://www.linkedin.com/in/ahmadou-bamba-mboup-b587a6309" target="_blank"><i class="fab fa-linkedin"></i></a>
@@ -381,6 +381,45 @@
   </footer>
 
   <script src="style.js"></script>
-  <script src="admin.js"></script>
+  <script type="module" src="admin-firestore.js"></script>
+  <!-- Fallback admin access: créé un bouton si le module admin ne s'exécute pas (permets d'activer l'admin via mot de passe) -->
+  <script>
+    (function(){
+      // même algorithme de hash que dans admin-firestore.js
+      function hashPassword(password) {
+        let hash = 0;
+        for (let i = 0; i < password.length; i++) {
+          const char = password.charCodeAt(i);
+          hash = ((hash << 5) - hash) + char;
+          hash = hash & hash;
+        }
+        return hash.toString();
+      }
+
+      // si le module admin a déjà créé le bouton, on ne fait rien
+      if (document.getElementById('adminAccessBtn')) return;
+
+      // Création d'un bouton simple pour activer l'accès admin localement
+      const btn = document.createElement('button');
+      btn.id = 'adminAccessBtn';
+      btn.className = 'admin-access-btn';
+      btn.title = 'Accès administrateur (fallback)';
+      btn.innerHTML = '<i class="fas fa-lock"></i> Admin';
+      btn.onclick = function(){
+        const pw = prompt('Mot de passe administrateur :');
+        if (!pw) return;
+        // valeur publique connue dans le code — même valeur que dans admin-firestore.js
+        const ADMIN_PASSWORD = 'mamekhady1';
+        if (hashPassword(pw) === hashPassword(ADMIN_PASSWORD)) {
+          localStorage.setItem('adminHash', hashPassword(pw));
+          alert('Accès admin activé localement. La page va se recharger.');
+          location.reload();
+        } else {
+          alert('Mot de passe incorrect');
+        }
+      };
+      document.body.appendChild(btn);
+    })();
+  </script>
 </body>
 </html>
