@@ -3,7 +3,7 @@
 // ============================================
 
 
-const ADMIN_PASSWORD = 'mamekhady1'; 
+const ADMIN_PASSWORD = 'mamekhady1';
 
 // Fonction de hash simple (pour un portfolio statique)
 function hashPassword(password) {
@@ -27,7 +27,7 @@ function isAdmin() {
 function loginAdmin(password) {
   const inputHash = hashPassword(password);
   const correctHash = hashPassword(ADMIN_PASSWORD);
-  
+
   if (inputHash === correctHash) {
     localStorage.setItem('adminHash', inputHash);
     return true;
@@ -102,11 +102,11 @@ function deleteProject(projectId) {
 // Ajouter les boutons de suppression aux projets statiques
 function addDeleteButtonsToStaticProjects() {
   if (!isAdmin()) return;
-  
+
   const staticProjects = document.querySelectorAll('.projects-grid .project-card:not(.project-card-dynamic):not(.project-placeholder)');
   staticProjects.forEach((projectCard, index) => {
     if (projectCard.querySelector('.delete-project-btn')) return;
-    
+
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'delete-project-btn';
     deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
@@ -132,19 +132,19 @@ function renderProjects() {
   addDeleteButtonsToStaticProjects();
 
   const projects = loadProjects();
-  
+
   projects.forEach(project => {
     const projectCard = document.createElement('div');
     projectCard.className = 'project-card project-card-dynamic';
     projectCard.dataset.projectId = project.id;
 
-    const techTags = project.technologies.map(tech => 
+    const techTags = project.technologies.map(tech =>
       `<span class="tech-tag">${tech}</span>`
     ).join('');
 
     const projectImage = project.image || 'images/senelec-predict.jpg';
     // Supporter plusieurs images par projet (image principale + additionalImages)
-    const allProjectImages = [projectImage].concat(project.additionalImages || []).filter(Boolean).slice(0,5);
+    const allProjectImages = [projectImage].concat(project.additionalImages || []).filter(Boolean).slice(0, 5);
     const projectImagesHTML = allProjectImages.map(img => `
         <div class="project-image-item">
           <img src="${img}" alt="${project.title}">
@@ -190,7 +190,7 @@ function renderProjects() {
 }
 
 // Initialiser les sliders d'images pour une liste de conteneurs
-function initImageSliders(selector, intervalMs = 1000) {
+function initImageSliders(selector, intervalMs = 7000) {
   const containers = document.querySelectorAll(selector);
   containers.forEach(container => {
     // Clear existing interval if any
@@ -229,7 +229,7 @@ function initImageSliders(selector, intervalMs = 1000) {
 function loadEducations() {
   const stored = localStorage.getItem('portfolioEducations');
   if (stored) return JSON.parse(stored);
-  
+
   // Initialiser avec les formations par défaut
   const defaultEducations = [
     { id: 1, year: '2024-2025', title: 'Master 1 Gestion des Données et Ingénierie Logiciel', location: 'Université Gaston Berger (UGB)' },
@@ -257,12 +257,12 @@ function renderEducations() {
   dynamicItems.forEach(item => item.remove());
 
   const educations = loadEducations();
-  
+
   educations.forEach((edu, index) => {
     const item = document.createElement('div');
     item.className = 'timeline-item timeline-item-dynamic';
     item.dataset.educationId = edu.id;
-    
+
     if (index % 2 === 0) {
       item.style.flexDirection = 'row';
     } else {
@@ -283,7 +283,7 @@ function renderEducations() {
         <p class="timeline-location">${edu.location}</p>
       </div>
     `;
-    
+
     timeline.appendChild(item);
   });
 }
@@ -349,7 +349,7 @@ function deleteEducation(educationId) {
 function loadSkills() {
   const stored = localStorage.getItem('portfolioSkills');
   if (stored) return JSON.parse(stored);
-  
+
   // Initialiser avec les compétences par défaut
   const defaultSkills = [
     {
@@ -396,13 +396,13 @@ function renderSkills() {
   dynamicCategories.forEach(cat => cat.remove());
 
   const skills = loadSkills();
-  
+
   skills.forEach(category => {
     const categoryDiv = document.createElement('div');
     categoryDiv.className = 'skill-category skill-category-dynamic';
     categoryDiv.dataset.categoryId = category.id;
 
-    const skillTags = category.skills.map(skill => 
+    const skillTags = category.skills.map(skill =>
       `<span class="skill-tag">${skill}</span>`
     ).join('');
 
@@ -420,7 +420,7 @@ function renderSkills() {
       </h3>
       <div class="skill-tags">${skillTags}</div>
     `;
-    
+
     skillsGrid.appendChild(categoryDiv);
   });
 }
@@ -486,7 +486,7 @@ function deleteSkillCategory(categoryId) {
 function loadAbout() {
   const stored = localStorage.getItem('portfolioAbout');
   if (stored) return JSON.parse(stored);
-  
+
   const defaultAbout = {
     paragraphs: [
       'Étudiant en Master 1 Gestion des Données et Ingénierie Logiciel à l\'UGB, je suis passionné par le développement logiciel, l\'IA et l\'administration de bases de données. Je m\'oriente vers la data science avec une forte base en programmation système, web et mobile.',
@@ -592,7 +592,7 @@ function updateCVLink() {
 function loadHero() {
   const stored = localStorage.getItem('portfolioHero');
   if (stored) return JSON.parse(stored);
-  
+
   const defaultHero = {
     description: 'Étudiant en Master 1 Gestion des Données et Ingénierie Logiciel à l\'UGB',
     subtitle: 'Développeur Web & Mobile | Futur Data Scientist'
@@ -612,7 +612,7 @@ function renderHero() {
   const hero = loadHero();
   const descriptionEl = document.querySelector('.hero-description');
   const subtitleEl = document.querySelector('.hero-subtitle-wrapper');
-  
+
   if (descriptionEl) {
     descriptionEl.textContent = hero.description;
     if (isAdmin()) {
@@ -621,7 +621,7 @@ function renderHero() {
       descriptionEl.onclick = () => showEditHeroModal();
     }
   }
-  
+
   if (subtitleEl) {
     subtitleEl.textContent = hero.subtitle;
   }
@@ -687,28 +687,38 @@ function deleteActivity(activityId) {
 // Initialiser les activités par défaut
 function initDefaultActivities() {
   const activities = loadActivities();
-  
+
   if (activities.length === 0) {
     const defaultActivities = [
       {
         id: Date.now(),
         image: 'images/tutorat.jpg',
         title: 'Tutorat',
-        description: 'Session de tutorat que j\'ai animée pour aider les étudiants en programmation.',
-        date: '2024',
+        description: 'Session de tutorat que j\'ai animée pour aider les étudiants en algoritme et programmation.',
+        date: 'Nov 2025',
         createdAt: new Date().toISOString()
       },
       {
         id: Date.now() + 1,
         image: 'images/avecBambaDiagne.jpg',
         title: '72H du Club Informatique de l\'UGB',
-        description: 'Participation aux 72 heures du club informatique de l\'Université Gaston Berger. Événement rassemblant les membres du club pour des activités de développement et d\'innovation.',
-        date: '2024',
+        description: 'Participation aux 72 heures du club informatique de l\'Université Gaston Berger. Événement rassemblant tout les membres du club pour des activités de développement et d\'innovation.',
+        date: 'Mai 2025',
         additionalImages: ['images/avecLesAutreMembreDuClub.jpg', 'images/avecMonAmi.jpg'],
         createdAt: new Date().toISOString()
+      },
+      {
+        id: Date.now() + 2,
+        image: 'images/avecBambaDiagne.jpg',
+        title: 'Cours de Renforcement en Algorithmique & Programmation (Niveaux 1, 2 & 3)',
+        description: 'Programme intensif de renforcement en algorithmique et en programmation destiné aux étudiants. Ces cours pratiques et structurés couvrent les niveaux L1 et L2, avec pour objectif de consolider les bases, améliorer la logique de programmation et développer des compétences solides pour réussir les examens et devenir plus performants en informatique. Formation payante axée sur la pratique, l’accompagnement personnalisé et la réussite académique.',
+        date: 'Janv 2025',
+        additionalImages: ['images/bamba.jpg', 'images/ahmadou.jpg'],
+        createdAt: new Date().toISOString()
+
       }
     ];
-    
+
     saveActivities(defaultActivities);
   }
 }
@@ -722,14 +732,14 @@ function renderActivities() {
   dynamicActivities.forEach(activity => activity.remove());
 
   const activities = loadActivities();
-  
+
   activities.forEach(activity => {
     const activityCard = document.createElement('div');
     activityCard.className = 'activity-card activity-card-dynamic';
     activityCard.dataset.activityId = activity.id;
 
     const activityImage = activity.image || 'images/senelec-predict.jpg';
-    
+
     let imagesHTML = '';
     if (activity.additionalImages && activity.additionalImages.length > 0) {
       const allImages = [activityImage, ...activity.additionalImages].slice(0, 3);
@@ -745,7 +755,7 @@ function renderActivities() {
         </div>
       `;
     }
-    
+
     activityCard.innerHTML = `
       <div class="activity-images-container">
         ${imagesHTML}
@@ -989,7 +999,7 @@ function previewProjectImage(num, input) {
   const preview = document.getElementById(`projectPreview${num}`);
   if (input.files && input.files[0]) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 5px;">`;
     };
     reader.readAsDataURL(input.files[0]);
@@ -1096,7 +1106,7 @@ function previewActivityImage(num, input) {
   const preview = document.getElementById(`preview${num}`);
   if (input.files && input.files[0]) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 5px;">`;
     };
     reader.readAsDataURL(input.files[0]);
@@ -1124,7 +1134,7 @@ function handleAddActivity(event) {
 
   const image1Name = image1File.name;
   const additionalImages = [];
-  
+
   if (image2File) additionalImages.push('images/' + image2File.name);
   if (image3File) additionalImages.push('images/' + image3File.name);
 
@@ -1136,8 +1146,8 @@ function handleAddActivity(event) {
     date: document.getElementById('activityDate').value || new Date().toLocaleDateString('fr-FR')
   };
 
-  alert('Note: Assurez-vous que les images sont déjà dans le dossier images/ avec les noms: ' + 
-        image1Name + (image2File ? ', ' + image2File.name : '') + (image3File ? ', ' + image3File.name : ''));
+  alert('Note: Assurez-vous que les images sont déjà dans le dossier images/ avec les noms: ' +
+    image1Name + (image2File ? ', ' + image2File.name : '') + (image3File ? ', ' + image3File.name : ''));
 
   if (addActivity(activityData)) {
     document.getElementById('addActivityForm').reset();
@@ -1178,7 +1188,7 @@ function previewProfilePhoto(input) {
   const preview = document.getElementById('profilePreview');
   if (input.files && input.files[0]) {
     const reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
       preview.innerHTML = `<img src="${e.target.result}" style="max-width: 300px; max-height: 400px; border-radius: 15px; margin-top: 10px; border: 3px solid var(--primary-color);">`;
     };
     reader.readAsDataURL(input.files[0]);
@@ -1332,7 +1342,7 @@ function handleEditEducation(event) {
   const educationId = parseInt(document.getElementById('editEducationId').value);
   const educations = loadEducations();
   const index = educations.findIndex(e => e.id === educationId);
-  
+
   if (index !== -1) {
     educations[index].year = document.getElementById('editEducationYear').value;
     educations[index].title = document.getElementById('editEducationTitle').value;
@@ -1416,13 +1426,13 @@ function handleAddSkillCategory(event) {
     .split(',')
     .map(s => s.trim())
     .filter(s => s);
-  
+
   const categoryData = {
     icon: document.getElementById('skillCategoryIcon').value || 'fa-code',
     title: document.getElementById('skillCategoryTitle').value,
     skills: skills
   };
-  
+
   if (addSkillCategory(categoryData)) {
     document.getElementById('addSkillCategoryForm').reset();
     closeAddSkillCategoryModal();
@@ -1436,13 +1446,13 @@ function handleEditSkillCategory(event) {
   const categoryId = parseInt(document.getElementById('editSkillCategoryId').value);
   const skills = loadSkills();
   const index = skills.findIndex(c => c.id === categoryId);
-  
+
   if (index !== -1) {
     const skillList = document.getElementById('editSkillCategorySkills').value
       .split(',')
       .map(s => s.trim())
       .filter(s => s);
-    
+
     skills[index].icon = document.getElementById('editSkillCategoryIcon').value;
     skills[index].title = document.getElementById('editSkillCategoryTitle').value;
     skills[index].skills = skillList;
@@ -1490,7 +1500,7 @@ function handleEditAbout(event) {
     .split('\n')
     .map(p => p.trim())
     .filter(p => p);
-  
+
   const about = loadAbout();
   about.paragraphs = paragraphs;
   saveAbout(about);
@@ -1530,7 +1540,7 @@ function handleCVChange(event) {
   event.preventDefault();
   const cvFile = document.getElementById('cvFile').files[0];
   const cvPath = document.getElementById('cvPath').value;
-  
+
   if (cvFile) {
     const cvName = cvFile.name;
     saveCV('images/' + cvName);
@@ -1539,7 +1549,7 @@ function handleCVChange(event) {
     saveCV(cvPath);
     alert('Chemin du CV mis à jour !');
   }
-  
+
   closeCVModal();
 }
 
@@ -1748,7 +1758,7 @@ function editStat(index) {
   const newIcon = prompt('Icône FontAwesome (ex: fa-code):', stat.icon);
   const newNumber = prompt('Nombre:', stat.number);
   const newLabel = prompt('Label:', stat.label);
-  
+
   if (newIcon && newNumber && newLabel) {
     about.stats[index] = { icon: newIcon, number: newNumber, label: newLabel };
     saveAbout(about);
@@ -1761,7 +1771,7 @@ function showAddStatModal() {
   const newIcon = prompt('Icône FontAwesome (ex: fa-code):', 'fa-code');
   const newNumber = prompt('Nombre:', '0+');
   const newLabel = prompt('Label:', 'Nouvelle statistique');
-  
+
   if (newIcon && newNumber && newLabel) {
     const about = loadAbout();
     about.stats.push({ icon: newIcon, number: newNumber, label: newLabel });
@@ -1773,12 +1783,12 @@ function showAddStatModal() {
 // Ajouter le bouton de changement de photo en mode admin
 function addProfilePhotoButton() {
   if (!isAdmin()) return;
-  
+
   const profileCard = document.querySelector('.profile-card');
   if (!profileCard) return;
-  
+
   if (profileCard.querySelector('.change-profile-btn')) return;
-  
+
   const changeBtn = document.createElement('button');
   changeBtn.className = 'change-profile-btn';
   changeBtn.innerHTML = '<i class="fas fa-camera"></i>';
@@ -1838,7 +1848,7 @@ function showAdminInterface() {
   }
 
   addProfilePhotoButton();
-  
+
   const placeholder = document.querySelector('.project-placeholder');
   if (placeholder) {
     placeholder.innerHTML = `
@@ -1872,7 +1882,7 @@ function showAdminInterface() {
     activityPlaceholder.style.cursor = 'pointer';
     activityPlaceholder.style.display = 'block';
   }
-  
+
   renderProjects();
   renderActivities();
   renderEducations();
@@ -1927,7 +1937,7 @@ function initAdminInterface() {
   const adminBtn = document.createElement('button');
   adminBtn.id = 'adminAccessBtn';
   adminBtn.className = 'admin-access-btn';
-  
+
   // Vérifier l'état de connexion
   if (isAdmin()) {
     adminBtn.innerHTML = '<i class="fas fa-user-shield"></i> Admin';
@@ -1938,7 +1948,7 @@ function initAdminInterface() {
     adminBtn.title = 'Accès administrateur';
     adminBtn.onclick = () => showLoginModal();
   }
-  
+
   document.body.appendChild(adminBtn);
 
   // Créer tous les modals
@@ -1958,7 +1968,7 @@ function initAdminInterface() {
 
   // Initialiser les activités par défaut
   initDefaultActivities();
-  
+
   // Rendre toutes les sections
   renderProjects();
   renderActivities();
@@ -1976,11 +1986,11 @@ function initAdminInterface() {
 }
 
 // Fermer les modals en cliquant à l'extérieur
-window.onclick = function(event) {
-  const modals = ['loginModal', 'addProjectModal', 'addActivityModal', 'changeProfileModal', 
-                  'addEducationModal', 'editEducationModal', 'addSkillCategoryModal', 
-                  'editSkillCategoryModal', 'editAboutModal', 'cvModal', 'heroModal'];
-  
+window.onclick = function (event) {
+  const modals = ['loginModal', 'addProjectModal', 'addActivityModal', 'changeProfileModal',
+    'addEducationModal', 'editEducationModal', 'addSkillCategoryModal',
+    'editSkillCategoryModal', 'editAboutModal', 'cvModal', 'heroModal'];
+
   modals.forEach(modalId => {
     const modal = document.getElementById(modalId);
     if (event.target === modal) {
