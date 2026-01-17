@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "year": "2024-2025",
+        "title": "Master 1 Gestion des Données et Ingénierie Logiciel",
+        "location": "Université Gaston Berger (UGB)"
+    },
+    {
+        "id": 2,
+        "year": "2023-2024",
+        "title": "Licence 3 Informatique",
+        "location": "Université Gaston Berger (UGB)"
+    },
+    {
+        "id": 3,
+        "year": "2022-2023",
+        "title": "Licence 2 MPI",
+        "location": "Université Gaston Berger (UGB)"
+    },
+    {
+        "id": 4,
+        "year": "2021-2022",
+        "title": "Licence 1 MPI",
+        "location": "Université Gaston Berger (UGB)"
+    },
+    {
+        "id": 5,
+        "year": "2021",
+        "title": "Baccalauréat S1",
+        "location": "Kaolack"
+    }
+]

@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "image": "images/tutorat.jpg",
+        "title": "Tutorat",
+        "description": "Session de tutorat que j'ai animée pour aider les étudiants en algoritme et programmation.",
+        "date": "Nov 2025",
+        "additionalImages": [],
+        "createdAt": "2026-01-17T00:00:00.000Z"
+    },
+    {
+        "id": 2,
+        "image": "images/avecBambaDiagne.jpg",
+        "title": "72H du Club Informatique de l'UGB",
+        "description": "Participation aux 72 heures du club informatique de l'Université Gaston Berger. Événement rassemblant tout les membres du club pour des activités de développement et d'innovation.",
+        "date": "Mai 2025",
+        "additionalImages": [
+            "images/avecLesAutreMembreDuClub.jpg",
+            "images/avecMonAmi.jpg"
+        ],
+        "createdAt": "2026-01-17T00:00:00.000Z"
+    },
+    {
+        "id": 3,
+        "image": "images/avecBambaDiagne.jpg",
+        "title": "Cours de Renforcement en Algorithmique & Programmation ( 1, 2 & 3)",
+        "description": "Programme intensif de renforcement en algorithmique et en programmation destiné aux étudiants. Ces cours pratiques et structurés couvrent les niveaux L1 et L2, avec pour objectif de consolider les bases, améliorer la logique de programmation et développer des compétences solides pour réussir les examens et devenir plus performants en informatique. Formation payante axée sur la pratique, l’accompagnement personnalisé et la réussite académique.",
+        "date": "Janv 2025",
+        "additionalImages": [
+            "images/bamba.jpg",
+            "images/ahmadou.jpg"
+        ],
+        "createdAt": "2026-01-17T00:00:00.000Z"
+    }
+]

@@ -13,6 +13,7 @@ function hashPassword(password) {
     hash = ((hash << 5) - hash) + char;
     hash = hash & hash; // Convert to 32bit integer
   }
+
   return hash.toString();
 }
 
@@ -190,7 +191,7 @@ function renderProjects() {
 }
 
 // Initialiser les sliders d'images pour une liste de conteneurs
-function initImageSliders(selector, intervalMs = 7000) {
+function initImageSliders(selector, intervalMs = 9000) {
   const containers = document.querySelectorAll(selector);
   containers.forEach(container => {
     // Clear existing interval if any
@@ -219,6 +220,40 @@ function initImageSliders(selector, intervalMs = 7000) {
       items[current].style.display = 'block';
     }, intervalMs);
   });
+}
+
+// Tenter de synchroniser des données depuis des fichiers JSON déployés
+// Si vous commitez des fichiers comme `projects.json`, `activities.json`,
+// `educations.json`, etc. à la racine du site, cette fonction les chargera
+// et mettra à jour le localStorage + l'UI pour que tous les visiteurs voient
+// les changements après un deploy.
+async function syncDataFromServer() {
+  const mappings = [
+    { endpoint: 'projects', key: 'portfolioProjects', save: saveProjects, render: renderProjects },
+    { endpoint: 'activities', key: 'portfolioActivities', save: saveActivities, render: renderActivities },
+    { endpoint: 'educations', key: 'portfolioEducations', save: saveEducations, render: renderEducations },
+    { endpoint: 'skills', key: 'portfolioSkills', save: saveSkills, render: renderSkills },
+    { endpoint: 'about', key: 'portfolioAbout', save: saveAbout, render: renderAbout },
+    { endpoint: 'hero', key: 'portfolioHero', save: saveHero, render: renderHero }
+  ];
+
+  await Promise.all(mappings.map(async map => {
+    try {
+      const resp = await fetch(`/${map.endpoint}.json`, { cache: 'no-store' });
+      if (!resp.ok) return; // fichier non présent côté serveur
+      const json = await resp.json();
+      if (typeof map.save === 'function') {
+        map.save(json);
+      } else {
+        localStorage.setItem(map.key, JSON.stringify(json));
+      }
+      if (typeof map.render === 'function') {
+        try { map.render(); } catch (e) { console.warn('render failed for', map.endpoint, e); }
+      }
+    } catch (e) {
+      // ignore network errors
+    }
+  }));
 }
 
 // ============================================
@@ -709,11 +744,11 @@ function initDefaultActivities() {
       },
       {
         id: Date.now() + 2,
-        image: 'images/avecBambaDiagne.jpg',
+        image: 'images/renfor1.jpeg',
         title: 'Cours de Renforcement en Algorithmique & Programmation (Niveaux 1, 2 & 3)',
         description: 'Programme intensif de renforcement en algorithmique et en programmation destiné aux étudiants. Ces cours pratiques et structurés couvrent les niveaux L1 et L2, avec pour objectif de consolider les bases, améliorer la logique de programmation et développer des compétences solides pour réussir les examens et devenir plus performants en informatique. Formation payante axée sur la pratique, l’accompagnement personnalisé et la réussite académique.',
         date: 'Janv 2025',
-        additionalImages: ['images/bamba.jpg', 'images/ahmadou.jpg'],
+        additionalImages: ['images/renfor2.jpeg', 'images/renfor3.jpeg'],
         createdAt: new Date().toISOString()
 
       }
@@ -1932,7 +1967,7 @@ function hideAdminInterface() {
 }
 
 // Initialiser l'interface admin
-function initAdminInterface() {
+async function initAdminInterface() {
   // Créer le bouton admin
   const adminBtn = document.createElement('button');
   adminBtn.id = 'adminAccessBtn';
@@ -1965,6 +2000,13 @@ function initAdminInterface() {
 
   loadProfilePhoto();
   updateCVLink();
+
+  // Synchroniser les données depuis le serveur (fichiers JSON déployés)
+  try {
+    await syncDataFromServer();
+  } catch (e) {
+    // si échec, on continue avec localStorage
+  }
 
   // Initialiser les activités par défaut
   initDefaultActivities();
@@ -2003,6 +2045,6 @@ window.onclick = function (event) {
 }
 
 // Initialiser au chargement de la page
-document.addEventListener('DOMContentLoaded', () => {
-  initAdminInterface();
+document.addEventListener('DOMContentLoaded', async () => {
+  await initAdminInterface();
 });

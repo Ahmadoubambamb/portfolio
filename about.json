@@ -1,0 +1,23 @@
+{
+    "paragraphs": [
+        "Étudiant en Master 1 Gestion des Données et Ingénierie Logiciel à l'UGB, je suis passionné par le développement logiciel, l'IA et l'administration de bases de données. Je m'oriente vers la data science avec une forte base en programmation système, web et mobile.",
+        "Mon objectif est de combiner mes compétences techniques en développement avec une expertise approfondie en analyse de données et intelligence artificielle pour créer des solutions innovantes."
+    ],
+    "stats": [
+        {
+            "icon": "fa-code",
+            "number": "10+",
+            "label": "Projets réalisés"
+        },
+        {
+            "icon": "fa-graduation-cap",
+            "number": "M1",
+            "label": "Niveau d'étude actuel"
+        },
+        {
+            "icon": "fa-language",
+            "number": "6+",
+            "label": "Langages de programmation maîtrisés"
+        }
+    ]
+}

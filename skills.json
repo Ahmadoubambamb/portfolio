@@ -1,0 +1,59 @@
+[
+    {
+        "id": 1,
+        "icon": "fa-code",
+        "title": "Langages de programmation",
+        "skills": [
+            "C",
+            "C++",
+            "Java",
+            "JavaScript",
+            "HTML/CSS",
+            "PHP",
+            "PL/pgSQL",
+            "Python",
+            "SQL",
+            "Lisp"
+        ]
+    },
+    {
+        "id": 2,
+        "icon": "fa-database",
+        "title": "Bases de données",
+        "skills": [
+            "PostgreSQL",
+            "MySQL",
+            "PHPMyAdmin",
+            "Oracle"
+        ]
+    },
+    {
+        "id": 3,
+        "icon": "fa-tools",
+        "title": "Outils & Frameworks",
+        "skills": [
+            "Git",
+            "Firebase",
+            "Flutter",
+            "Qt",
+            "VS Code",
+            "Cursor",
+            "Kali Linux",
+            "Angular",
+            "MongoDB",
+            "Spring Boot"
+        ]
+    },
+    {
+        "id": 4,
+        "icon": "fa-cogs",
+        "title": "Autres compétences",
+        "skills": [
+            "Programmation Système",
+            "Réseaux (Sockets)",
+            "Shell Scripting",
+            "Conception UML",
+            "MCD"
+        ]
+    }
+]
