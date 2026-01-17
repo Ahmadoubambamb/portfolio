@@ -22,13 +22,13 @@
     },
     {
         "id": 3,
-        "image": "images/avecBambaDiagne.jpg",
+        "image": "images/renfor1.jpeg",
         "title": "Cours de Renforcement en Algorithmique & Programmation ( 1, 2 & 3)",
         "description": "Programme intensif de renforcement en algorithmique et en programmation destiné aux étudiants. Ces cours pratiques et structurés couvrent les niveaux L1 et L2, avec pour objectif de consolider les bases, améliorer la logique de programmation et développer des compétences solides pour réussir les examens et devenir plus performants en informatique. Formation payante axée sur la pratique, l’accompagnement personnalisé et la réussite académique.",
         "date": "Janv 2025",
         "additionalImages": [
-            "images/bamba.jpg",
-            "images/ahmadou.jpg"
+            "images/renfor2.jp2g",
+            "images/renfor3.jpeg"
         ],
         "createdAt": "2026-01-17T00:00:00.000Z"
     }

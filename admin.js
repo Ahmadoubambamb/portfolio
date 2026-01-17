@@ -191,8 +191,9 @@ function renderProjects() {
 }
 
 // Initialiser les sliders d'images pour une liste de conteneurs
-function initImageSliders(selector, intervalMs = 9000) {
+function initImageSliders(selector, intervalMs = 4000) {
   const containers = document.querySelectorAll(selector);
+  if (containers.length > 0) console.debug('initImageSliders', selector, 'containers=', containers.length, 'intervalMs=', intervalMs);
   containers.forEach(container => {
     // Clear existing interval if any
     if (container._sliderInterval) {
