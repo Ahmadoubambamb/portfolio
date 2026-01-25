@@ -145,10 +145,10 @@ function renderProjects() {
 
     const projectImage = project.image || 'images/senelec-predict.jpg';
     // Supporter plusieurs images par projet (image principale + additionalImages)
-    const allProjectImages = [projectImage].concat(project.additionalImages || []).filter(Boolean).slice(0, 5);
+    const allProjectImages = [projectImage].concat(project.additionalImages || []).filter(Boolean).slice(0, 10);
     const projectImagesHTML = allProjectImages.map(img => `
         <div class="project-image-item">
-          <img src="${img}" alt="${project.title}">
+          <img src="${img}" alt="${project.title}" loading="lazy">
         </div>
       `).join('');
 
@@ -176,7 +176,7 @@ function renderProjects() {
   });
 
   // Initialiser les sliders d'images pour les projets
-  initImageSliders('.projects-grid .project-images-container', 1000);
+  initImageSliders('.projects-grid .project-images-container', 10000);
 
   const placeholder = projectsGrid.querySelector('.project-placeholder');
   if (placeholder) {
@@ -191,7 +191,7 @@ function renderProjects() {
 }
 
 // Initialiser les sliders d'images pour une liste de conteneurs
-function initImageSliders(selector, intervalMs = 4000) {
+function initImageSliders(selector, intervalMs = 10000) {
   const containers = document.querySelectorAll(selector);
   if (containers.length > 0) console.debug('initImageSliders', selector, 'containers=', containers.length, 'intervalMs=', intervalMs);
   containers.forEach(container => {
@@ -215,11 +215,105 @@ function initImageSliders(selector, intervalMs = 4000) {
     });
 
     let current = 0;
-    container._sliderInterval = setInterval(() => {
-      items[current].style.display = 'none';
-      current = (current + 1) % items.length;
-      items[current].style.display = 'block';
-    }, intervalMs);
+
+    // Helper to show slide index and update dots
+    function showSlide(index) {
+      items.forEach((it, i) => {
+        it.style.display = i === index ? 'block' : 'none';
+        it.style.position = i === index ? (it.style.position || '') : 'absolute';
+      });
+      current = index;
+      // update dots
+      if (dotsEl) {
+        Array.from(dotsEl.children).forEach((d, i) => {
+          d.style.opacity = i === index ? '1' : '0.5';
+          d.style.transform = i === index ? 'scale(1.1)' : 'scale(1)';
+        });
+      }
+    }
+
+    // Create controls (prev/next) and dots if not present
+    let controls = container.querySelector('.slider-controls');
+    let dotsEl = container.querySelector('.slider-dots');
+    if (!controls) {
+      controls = document.createElement('div');
+      controls.className = 'slider-controls';
+      controls.style.position = 'absolute';
+      controls.style.top = '50%';
+      controls.style.left = '0';
+      controls.style.right = '0';
+      controls.style.display = 'flex';
+      controls.style.justifyContent = 'space-between';
+      controls.style.pointerEvents = 'none';
+
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'slider-prev';
+      prevBtn.innerHTML = '&#10094;';
+      prevBtn.style.pointerEvents = 'auto';
+      prevBtn.style.background = 'rgba(0,0,0,0.45)';
+      prevBtn.style.color = 'white';
+      prevBtn.style.border = 'none';
+      prevBtn.style.padding = '8px 10px';
+      prevBtn.style.margin = '0 8px';
+      prevBtn.style.borderRadius = '6px';
+      prevBtn.style.cursor = 'pointer';
+      prevBtn.onclick = () => { showSlide((current - 1 + items.length) % items.length); resetInterval(); };
+
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'slider-next';
+      nextBtn.innerHTML = '&#10095;';
+      nextBtn.style.pointerEvents = 'auto';
+      nextBtn.style.background = 'rgba(0,0,0,0.45)';
+      nextBtn.style.color = 'white';
+      nextBtn.style.border = 'none';
+      nextBtn.style.padding = '8px 10px';
+      nextBtn.style.margin = '0 8px';
+      nextBtn.style.borderRadius = '6px';
+      nextBtn.style.cursor = 'pointer';
+      nextBtn.onclick = () => { showSlide((current + 1) % items.length); resetInterval(); };
+
+      controls.appendChild(prevBtn);
+      controls.appendChild(nextBtn);
+      container.appendChild(controls);
+    }
+
+    if (!dotsEl) {
+      dotsEl = document.createElement('div');
+      dotsEl.className = 'slider-dots';
+      dotsEl.style.position = 'absolute';
+      dotsEl.style.bottom = '8px';
+      dotsEl.style.left = '50%';
+      dotsEl.style.transform = 'translateX(-50%)';
+      dotsEl.style.display = 'flex';
+      dotsEl.style.gap = '6px';
+      dotsEl.style.zIndex = '20';
+      items.forEach((it, i) => {
+        const d = document.createElement('button');
+        d.className = 'slider-dot';
+        d.style.width = '10px';
+        d.style.height = '10px';
+        d.style.borderRadius = '50%';
+        d.style.border = 'none';
+        d.style.background = 'white';
+        d.style.opacity = i === 0 ? '1' : '0.5';
+        d.style.cursor = 'pointer';
+        d.onclick = () => { showSlide(i); resetInterval(); };
+        dotsEl.appendChild(d);
+      });
+      container.appendChild(dotsEl);
+    }
+
+    // Auto-advance interval with reset support
+    function resetInterval() {
+      if (container._sliderInterval) clearInterval(container._sliderInterval);
+      container._sliderInterval = setInterval(() => {
+        showSlide((current + 1) % items.length);
+      }, intervalMs);
+    }
+
+    // Start
+    showSlide(0);
+    resetInterval();
   });
 }
 
@@ -746,7 +840,7 @@ function initDefaultActivities() {
       {
         id: Date.now() + 2,
         image: 'images/renfor1.jpeg',
-        title: 'Cours de Renforcement en Algorithmique & Programmation (Niveaux 1, 2 & 3)',
+        title: 'Cours de Renforcement en Algorithmique & Programmation ( 1, 2 & 3)',
         description: 'Programme intensif de renforcement en algorithmique et en programmation destiné aux étudiants. Ces cours pratiques et structurés couvrent les niveaux L1 et L2, avec pour objectif de consolider les bases, améliorer la logique de programmation et développer des compétences solides pour réussir les examens et devenir plus performants en informatique. Formation payante axée sur la pratique, l’accompagnement personnalisé et la réussite académique.',
         date: 'Janv 2025',
         additionalImages: ['images/renfor2.jpeg', 'images/renfor3.jpeg'],
@@ -778,16 +872,16 @@ function renderActivities() {
 
     let imagesHTML = '';
     if (activity.additionalImages && activity.additionalImages.length > 0) {
-      const allImages = [activityImage, ...activity.additionalImages].slice(0, 3);
+      const allImages = [activityImage, ...activity.additionalImages].slice(0, 10);
       imagesHTML = allImages.map(img => `
         <div class="activity-image-item">
-          <img src="${img}" alt="${activity.title}">
+          <img src="${img}" alt="${activity.title}" loading="lazy">
         </div>
       `).join('');
     } else {
       imagesHTML = `
         <div class="activity-image-item">
-          <img src="${activityImage}" alt="${activity.title}">
+          <img src="${activityImage}" alt="${activity.title}" loading="lazy">
         </div>
       `;
     }
@@ -829,7 +923,7 @@ function renderActivities() {
   }
 
   // Initialiser les sliders d'images pour les activités
-  initImageSliders('.activities-grid .activity-images-container', 1000);
+  initImageSliders('.activities-grid .activity-images-container', 10000);
 }
 
 // ============================================
@@ -1011,6 +1105,41 @@ function createAddProjectModal() {
           <div id="projectPreview3" style="margin-top: 10px;"></div>
         </div>
         <div class="admin-form-group">
+          <label for="projectImage4">Image supplémentaire 3 (optionnel)</label>
+          <input type="file" id="projectImage4" accept="image/*" onchange="previewProjectImage(4, this)">
+          <div id="projectPreview4" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="projectImage5">Image supplémentaire 4 (optionnel)</label>
+          <input type="file" id="projectImage5" accept="image/*" onchange="previewProjectImage(5, this)">
+          <div id="projectPreview5" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="projectImage6">Image supplémentaire 5 (optionnel)</label>
+          <input type="file" id="projectImage6" accept="image/*" onchange="previewProjectImage(6, this)">
+          <div id="projectPreview6" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="projectImage7">Image supplémentaire 6 (optionnel)</label>
+          <input type="file" id="projectImage7" accept="image/*" onchange="previewProjectImage(7, this)">
+          <div id="projectPreview7" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="projectImage8">Image supplémentaire 7 (optionnel)</label>
+          <input type="file" id="projectImage8" accept="image/*" onchange="previewProjectImage(8, this)">
+          <div id="projectPreview8" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="projectImage9">Image supplémentaire 8 (optionnel)</label>
+          <input type="file" id="projectImage9" accept="image/*" onchange="previewProjectImage(9, this)">
+          <div id="projectPreview9" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="projectImage10">Image supplémentaire 9 (optionnel)</label>
+          <input type="file" id="projectImage10" accept="image/*" onchange="previewProjectImage(10, this)">
+          <div id="projectPreview10" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
           <label for="projectTechnologies">Technologies (séparées par des virgules)</label>
           <input type="text" id="projectTechnologies" placeholder="Ex: React, Node.js, MongoDB">
         </div>
@@ -1036,7 +1165,7 @@ function previewProjectImage(num, input) {
   if (input.files && input.files[0]) {
     const reader = new FileReader();
     reader.onload = function (e) {
-      preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 5px;">`;
+      preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 5px;" loading="lazy">`;
     };
     reader.readAsDataURL(input.files[0]);
   } else {
@@ -1058,13 +1187,19 @@ function handleAddProject(event) {
     .filter(t => t);
 
   // Récupérer les fichiers sélectionnés (si fournis)
-  const imageFile1 = document.getElementById('projectImage').files ? document.getElementById('projectImage').files[0] : null;
-  const imageFile2 = document.getElementById('projectImage2').files ? document.getElementById('projectImage2').files[0] : null;
-  const imageFile3 = document.getElementById('projectImage3').files ? document.getElementById('projectImage3').files[0] : null;
+  const imageFiles = [];
+  for (let i = 1; i <= 10; i++) {
+    const fileInput = document.getElementById('projectImage' + (i === 1 ? '' : i));
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+      imageFiles.push(fileInput.files[0]);
+    }
+  }
 
   const additionalImages = [];
-  if (imageFile2) additionalImages.push('images/' + imageFile2.name);
-  if (imageFile3) additionalImages.push('images/' + imageFile3.name);
+  for (let i = 1; i < imageFiles.length; i++) {
+    additionalImages.push('images/' + imageFiles[i].name);
+  }
+  const imageFile1 = imageFiles.length > 0 ? imageFiles[0] : null;
 
   const projectData = {
     title: document.getElementById('projectTitle').value,
@@ -1078,14 +1213,15 @@ function handleAddProject(event) {
 
   if (addProject(projectData)) {
     // Inform the admin to upload the files to the repo (or use the server-side function)
-    const names = [imageFile1, imageFile2, imageFile3].filter(Boolean).map(f => f.name);
+    const names = imageFiles.map(f => f.name);
     if (names.length > 0) {
       alert('Note: Assurez-vous que les images (' + names.join(', ') + ') sont présentes dans le dossier images/ du site (ou utilisez la fonction server-side pour commit).');
     }
     document.getElementById('addProjectForm').reset();
-    document.getElementById('projectPreview1').innerHTML = '';
-    document.getElementById('projectPreview2').innerHTML = '';
-    document.getElementById('projectPreview3').innerHTML = '';
+    for (let i = 1; i <= 10; i++) {
+      const previewEl = document.getElementById('projectPreview' + (i === 1 ? '' : i));
+      if (previewEl) previewEl.innerHTML = '';
+    }
     closeAddProjectModal();
     alert('Projet ajouté avec succès !');
   }
@@ -1126,6 +1262,41 @@ function createAddActivityModal() {
           <div id="preview3" style="margin-top: 10px;"></div>
         </div>
         <div class="admin-form-group">
+          <label for="activityImage4">Image supplémentaire 3 (optionnel)</label>
+          <input type="file" id="activityImage4" accept="image/*" onchange="previewActivityImage(4, this)">
+          <div id="preview4" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="activityImage5">Image supplémentaire 4 (optionnel)</label>
+          <input type="file" id="activityImage5" accept="image/*" onchange="previewActivityImage(5, this)">
+          <div id="preview5" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="activityImage6">Image supplémentaire 5 (optionnel)</label>
+          <input type="file" id="activityImage6" accept="image/*" onchange="previewActivityImage(6, this)">
+          <div id="preview6" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="activityImage7">Image supplémentaire 6 (optionnel)</label>
+          <input type="file" id="activityImage7" accept="image/*" onchange="previewActivityImage(7, this)">
+          <div id="preview7" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="activityImage8">Image supplémentaire 7 (optionnel)</label>
+          <input type="file" id="activityImage8" accept="image/*" onchange="previewActivityImage(8, this)">
+          <div id="preview8" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="activityImage9">Image supplémentaire 8 (optionnel)</label>
+          <input type="file" id="activityImage9" accept="image/*" onchange="previewActivityImage(9, this)">
+          <div id="preview9" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
+          <label for="activityImage10">Image supplémentaire 9 (optionnel)</label>
+          <input type="file" id="activityImage10" accept="image/*" onchange="previewActivityImage(10, this)">
+          <div id="preview10" style="margin-top: 10px;"></div>
+        </div>
+        <div class="admin-form-group">
           <label for="activityDate">Date</label>
           <input type="text" id="activityDate" placeholder="Ex: Janvier 2024" value="${new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}">
         </div>
@@ -1143,7 +1314,7 @@ function previewActivityImage(num, input) {
   if (input.files && input.files[0]) {
     const reader = new FileReader();
     reader.onload = function (e) {
-      preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 5px;">`;
+      preview.innerHTML = `<img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 5px;" loading="lazy">`;
     };
     reader.readAsDataURL(input.files[0]);
   } else {
@@ -1159,20 +1330,27 @@ function handleAddActivity(event) {
     return;
   }
 
-  const image1File = document.getElementById('activityImage1').files[0];
-  const image2File = document.getElementById('activityImage2').files[0];
-  const image3File = document.getElementById('activityImage3').files[0];
+  const imageFiles = [];
+  for (let i = 1; i <= 10; i++) {
+    const fileInput = document.getElementById('activityImage' + i);
+    if (fileInput && fileInput.files && fileInput.files[0]) {
+      imageFiles.push(fileInput.files[0]);
+    }
+  }
 
-  if (!image1File) {
+  if (imageFiles.length === 0) {
     alert('Veuillez sélectionner au moins une image principale.');
     return;
   }
 
-  const image1Name = image1File.name;
+  const image1Name = imageFiles[0].name;
   const additionalImages = [];
+  const fileNames = [image1Name];
 
-  if (image2File) additionalImages.push('images/' + image2File.name);
-  if (image3File) additionalImages.push('images/' + image3File.name);
+  for (let i = 1; i < imageFiles.length; i++) {
+    additionalImages.push('images/' + imageFiles[i].name);
+    fileNames.push(imageFiles[i].name);
+  }
 
   const activityData = {
     title: document.getElementById('activityTitle').value,
@@ -1182,14 +1360,14 @@ function handleAddActivity(event) {
     date: document.getElementById('activityDate').value || new Date().toLocaleDateString('fr-FR')
   };
 
-  alert('Note: Assurez-vous que les images sont déjà dans le dossier images/ avec les noms: ' +
-    image1Name + (image2File ? ', ' + image2File.name : '') + (image3File ? ', ' + image3File.name : ''));
+  alert('Note: Assurez-vous que les images sont déjà dans le dossier images/ avec les noms: ' + fileNames.join(', '));
 
   if (addActivity(activityData)) {
     document.getElementById('addActivityForm').reset();
-    document.getElementById('preview1').innerHTML = '';
-    document.getElementById('preview2').innerHTML = '';
-    document.getElementById('preview3').innerHTML = '';
+    for (let i = 1; i <= 10; i++) {
+      const previewEl = document.getElementById('preview' + i);
+      if (previewEl) previewEl.innerHTML = '';
+    }
     closeAddActivityModal();
     alert('Activité ajoutée avec succès !');
   }
@@ -1225,7 +1403,7 @@ function previewProfilePhoto(input) {
   if (input.files && input.files[0]) {
     const reader = new FileReader();
     reader.onload = function (e) {
-      preview.innerHTML = `<img src="${e.target.result}" style="max-width: 300px; max-height: 400px; border-radius: 15px; margin-top: 10px; border: 3px solid var(--primary-color);">`;
+      preview.innerHTML = `<img src="${e.target.result}" style="max-width: 300px; max-height: 400px; border-radius: 15px; margin-top: 10px; border: 3px solid var(--primary-color);" loading="lazy">`;
     };
     reader.readAsDataURL(input.files[0]);
   } else {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
@@ -10,6 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <!-- Navigation -->
   <nav class="navbar">
@@ -44,7 +46,7 @@
     <div class="container">
       <div class="hero-content">
         <div class="hero-text"><br>
-          <h1 class="hero-title"> 
+          <h1 class="hero-title">
             <span class="greeting">Bonjour, je suis</span>
             <span class="name">Ahmadou Bamba Mboup</span>
           </h1>
@@ -54,7 +56,7 @@
           <p class="hero-description">
             Étudiant en Master 1 Gestion des Données et Ingénierie Logiciel à l'UGB
           </p>
-          
+
           <div class="hero-buttons">
             <a href="#projets" class="btn btn-primary">Voir mes projets</a>
             <a href="#contact" class="btn btn-secondary">Me contacter</a>
@@ -73,16 +75,13 @@
               <i class="fas fa-phone"></i>
             </a>
           </div>
-        </div> 
+        </div>
         <div class="hero-image">
           <div class="profile-card">
-            <img src="images/bamba.jpg" alt="Ahmadou Bamba Mboup" class="profile-photo">
+            <img src="images/bamba.jpg" alt="Ahmadou Bamba Mboup" loading="lazy">
           </div>
         </div>
       </div>
-    </div>
-    <div class="scroll-indicator">
-      <i class="fas fa-chevron-down"></i>
     </div>
   </section>
 
@@ -96,10 +95,15 @@
       <div class="about-content">
         <div class="about-text">
           <p>
-            Étudiant en Master 1 Gestion des Données et Ingénierie Logiciel à l'UGB, je suis passionné par le développement logiciel, l'IA et l'administration de bases de données. Je m'oriente vers la data science avec une forte base en programmation système, web et mobile.
+            Étudiant en Master 1 Gestion des Données et Ingénierie Logiciel à l'UGB, je suis passionné par le
+            développement logiciel, l'IA et l'administration de bases de données. Je m'oriente vers la data science
+            avec
+            une forte base en programmation système, web et mobile.
           </p>
           <p>
-            Mon objectif est de combiner mes compétences techniques en développement avec une expertise approfondie en analyse de données et intelligence artificielle pour créer des solutions innovantes.
+            Mon objectif est de combiner mes compétences techniques en développement avec une expertise approfondie
+            en
+            analyse de données et intelligence artificielle pour créer des solutions innovantes.
           </p>
         </div>
         <div class="about-stats">
@@ -151,29 +155,153 @@
         <p class="section-subtitle">Voici quelques projets que j'ai réalisés</p>
       </div>
       <div class="projects-grid">
+         <!-- Projet 0 -->
+        <div class="project-card">
+          <div class="project-images-container">
+            <div class="project-image-item">
+              <img src="images/nafar0.png" alt="Portail UGB" loading="lazy">
+            </div>
+             <div class="project-image-item">
+              <img src="images/nafar1.png" alt="Portail UGB" loading="lazy">
+            </div>
+             <div class="project-image-item">
+              <img src="images/nafar2.png" alt="Portail UGB" loading="lazy">
+            </div>
+             <div class="project-image-item">
+              <img src="images/nafar3.png" alt="Portail UGB" loading="lazy">
+            </div>
+             <div class="project-image-item">
+              <img src="images/nafar4.png" alt="Portail UGB" loading="lazy">
+            </div>
+          </div>
+          <h3 class="project-title">NAFAR</h3>
+          <p class="project-description">Nafar est une application web et mobile révolutionnaire, conçue pour 
+                    transformer l'apprentissage en ligne. Elle offre aux étudiants la capacité 
+                    d'organiser leurs vidéos tutoriels YouTube, de prendre des notes 
+                    personnalisées et de réviser de manière optimale grâce à l'intégration de 
+                    la répétition espacée.
+                    <strong>Solution 100% autonome côté client</strong>
+                    <strong>Accessible partout, sur tous vos appareils</strong>
+                    <strong>Pas de création de compte obligatoire pour démarrer.</strong></p>
+          <div class="project-tech">
+            <span class="tech-tag">Web & Mobile</span>
+            <span class="tech-tag">Angular</span>
+            <span class="tech-tag">Flutter</span>
+            <span class="tech-tag">GitHub</span>
+            <span class="tech-tag">Figma</span>
+            <span class="tech-tag">Trello</span>
+          </div>
+          <a href="https://nafar.vercel.app/" target="_blank"
+            class="project-link">
+            <i class="fas fa-eye"></i> Voir le site
+          </a>
+        </div>
+         <!-- Projet 6 -->
+        <div class="project-card">
+          <div class="project-images-container">
+            <div class="project-image-item">
+              <img src="images/senelec-predict.jpg" alt="Prediction de consommation d'électricité" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/sen1.png" alt="Prediction de consommation d'électricité" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/sen2.png" alt="Prediction de consommation d'électricité" loading="lazy">
+           </div>
+            <div class="project-image-item">
+              <img src="images/sen3.png" alt="Prediction de consommation d'électricité" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/sen4.png" alt="Prediction de consommation d'électricité" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/sen5.png" alt="Prediction de consommation d'électricité" loading="lazy">
+            </div>
+          </div>
+          <h3 class="project-title">Prediction de consommation d'electicite</h3>
+          <p class="project-description">Time series prediction of electricity consumption using LSTM. Dataset from
+            Kaggle. </p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">LSTM</span>
+            <span class="tech-tag">Time Series</span>
+            <span class="tech-tag">Data Analysis</span>
+            <span class="tech-tag">Kaggle</span>
+          </div>
+          <a href="https://github.com/Ahmadoubambamb/Senelec-predict-AI" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> Voir sur GitHub
+          </a>
+        </div>
+        <!-- Projet 5 -->
+        <div class="project-card">
+          <div class="project-images-container">
+            <div class="project-image-item">
+              <img src="images/qt1.png" alt="POO Qt/C++ - Table de hachage" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/qt2.png" alt="POO Qt/C++ - Table de hachage" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/qt3.png" alt="POO Qt/C++ - Table de hachage" loading="lazy">
+            </div>
+             <div class="project-image-item">
+              <img src="images/qt4.png" alt="POO Qt/C++ - Table de hachage" loading="lazy">
+            </div>
+             <div class="project-image-item">
+              <img src="images/qt5.png" alt="POO Qt/C++ - Table de hachage" loading="lazy">
+            </div>
+          </div>
+          <h3 class="project-title">POO Qt/C++ - Table de hachage</h3>
+          <p class="project-description">L’objectif du projet est d’implémenter une application permettant de trouver rapidement une
+voiture d’une marque donnée dans une base avec toutes les informations la concernant </p>
+          <div class="project-tech">
+            <span class="tech-tag">C++</span>
+            <span class="tech-tag">Qt</span>
+            <span class="tech-tag">POO</span>
+          </div>
+          <a href="https://github.com/Ahmadoubambamb/Projet_POO/tree/main" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> Voir sur GitHub
+          </a>
+        </div>
         <!-- Projet 1 -->
         <div class="project-card">
-          <div class="project-image">
-            <img src="images/senelec-predict.jpg" alt="Portail UGB">
+          <div class="project-images-container">
+            <div class="project-image-item">
+              <img src="images/por1.png" alt="Portail UGB" loading="lazy">
+            </div>
+          <div class="project-image-item">
+              <img src="images/por2.png" alt="Portail UGB" loading="lazy">
+          </div>
           </div>
           <h3 class="project-title">Portail UGB</h3>
-          <p class="project-description">Refonte du portail d'inscription universitaire avec une interface moderne et intuitive.</p>
+          <p class="project-description">Refonte du portail d'inscription universitaire avec une interface moderne et
+            intuitive.</p>
           <div class="project-tech">
             <span class="tech-tag">Web</span>
             <span class="tech-tag">PHP</span>
           </div>
-          <a href="https://github.com/Ahmadoubambamb/ProjetDevWeb2024/tree/main/PortailUGB" target="_blank" class="project-link">
+          <a href="https://github.com/Ahmadoubambamb/ProjetDevWeb2024/tree/main/PortailUGB" target="_blank"
+            class="project-link">
             <i class="fab fa-github"></i> Voir sur GitHub
           </a>
         </div>
 
         <!-- Projet 2 -->
         <div class="project-card">
-          <div class="project-image">
-            <img src="images/senemploiAPK.jpg" alt="SenEmploi">
+          <div class="project-images-container">
+            <div class="project-image-item">
+              <img src="images/apk3.jpg" alt="SenEmploi" loading="lazy">
+            </div>
+             <div class="project-image-item">
+              <img src="images/apk2.jpg" alt="Portail UGB - vue 2" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/senemploiAPK.jpg" alt="Portail UGB - vue 3" loading="lazy">
+            </div>
           </div>
           <h3 class="project-title">SenEmploi</h3>
-          <p class="project-description">Application mobile de recherche d'emploi développée avec Flutter et Firebase.</p>
+          <p class="project-description">Application mobile de recherche d'emploi développée avec Flutter et Firebase.
+          </p>
           <div class="project-tech">
             <span class="tech-tag">Flutter</span>
             <span class="tech-tag">Firebase</span>
@@ -186,11 +314,26 @@
 
         <!-- Projet 3 -->
         <div class="project-card">
-          <div class="project-image">
-            <img src="images/senelec-predict.jpg" alt="IA - Perceptrons">
+          <div class="project-images-container">
+            <div class="project-image-item">
+              <img src="images/perc1.png" alt="IA - Perceptrons" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/perc2.png" alt="IA - Perceptrons" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/perc3.png" alt="IA - Perceptrons" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/perc4.png" alt="IA - Perceptrons" loading="lazy">
+            </div>
+            <div class="project-image-item">
+              <img src="images/perc5.png" alt="IA - Perceptrons" loading="lazy">
+            </div>
           </div>
           <h3 class="project-title">IA - Perceptrons</h3>
-          <p class="project-description">Deux mini-projets : perceptron simple et multi-couche pour la classification.</p>
+          <p class="project-description">Deux mini-projets : perceptron simple et multi-couche pour la classification.
+          </p>
           <div class="project-tech">
             <span class="tech-tag">IA</span>
             <span class="tech-tag">Python</span>
@@ -202,52 +345,19 @@
 
         <!-- Projet 4 -->
         <div class="project-card">
-          <div class="project-image">
-            <img src="images/senelec-predict.jpg" alt="Simulation SGBD">
+          <div class="project-images-container">
+            <div class="project-image-item">
+              <img src="images/sgbd1.png" alt="Simulation SGBD" loading="lazy">
+            </div>
           </div>
           <h3 class="project-title">Simulation SGBD</h3>
-          <p class="project-description">Développement en C d'un simulateur de base de données relationnelle.</p>
+          <p class="project-description">Simullation du fonctionnement d'un SGBD en utilisant les structure de donnee vues en Algo -Tableau (Operation de tri) -Enregistrement(Definir les tables de la BD) -Fichiers(Enregistrer les donnees de BD) -Listes chainees (Operation d'Intersection /Suppression) -arbres binaire de recherche</p>
           <div class="project-tech">
             <span class="tech-tag">C</span>
             <span class="tech-tag">SGBD</span>
           </div>
-          <a href="#" class="project-link">
+          <a href="https://github.com/Ahmadoubambamb/Projet-algo4" target="_blank" class="project-link">
             <i class="fas fa-eye"></i> En savoir plus
-          </a>
-        </div>
-
-        <!-- Projet 5 -->
-        <div class="project-card">
-          <div class="project-image">
-            <img src="images/senelec-predict.jpg" alt="POO Qt/C++ - Table de hachage">
-          </div>
-          <h3 class="project-title">POO Qt/C++ - Table de hachage</h3>
-          <p class="project-description">Recherche de voitures avec Qt/C++ en utilisant une table de hachage.</p>
-          <div class="project-tech">
-            <span class="tech-tag">C++</span>
-            <span class="tech-tag">Qt</span>
-            <span class="tech-tag">POO</span>
-          </div>
-          <a href="https://github.com/Ahmadoubambamb/Projet_POO/tree/main" target="_blank" class="project-link">
-            <i class="fab fa-github"></i> Voir sur GitHub
-          </a>
-        </div>
-        <!-- Projet 6 -->
-        <div class="project-card">
-          <div class="project-image">
-            <img src="images/senelec-predict.jpg" alt="Prediction de consommation d'électricité">
-          </div>
-          <h3 class="project-title">Prediction de consommation d'electicite</h3>
-          <p class="project-description">Time series prediction of electricity consumption using LSTM. Dataset from Kaggle. </p>
-          <div class="project-tech">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">LSTM</span>
-            <span class="tech-tag">Time Series</span>
-            <span class="tech-tag">Data Analysis</span>
-            <span class="tech-tag">Kaggle</span>
-          </div>
-          <a href="https://github.com/Ahmadoubambamb/Senelec-predict-AI" target="_blank" class="project-link">
-            <i class="fab fa-github"></i> Voir sur GitHub
           </a>
         </div>
 
@@ -340,7 +450,8 @@
             </div>
             <div class="contact-details">
               <h4>LinkedIn</h4>
-              <a href="https://www.linkedin.com/in/ahmadou-bamba-mboup-b587a6309" target="_blank">Ahmadou Bamba Mboup</a>
+              <a href="https://www.linkedin.com/in/ahmadou-bamba-mboup-b587a6309" target="_blank">Ahmadou Bamba
+                Mboup</a>
             </div>
           </div>
           <div class="contact-item">
@@ -372,7 +483,8 @@
       <p>&copy; 2024 Ahmadou Bamba Mboup. Tous droits réservés.</p>
       <div class="footer-links">
         <a href="https://github.com/Ahmadoubambamb" target="_blank"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/ahmadou-bamba-mboup-b587a6309" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.linkedin.com/in/ahmadou-bamba-mboup-b587a6309" target="_blank"><i
+            class="fab fa-linkedin"></i></a>
         <a href="mailto:mboup.ahmadou-bamba@ugb.edu.sn"><i class="fas fa-envelope"></i></a>
         <a href="tel:+221781445619"><i class="fas fa-phone"></i></a>
         <a href="https://wa.me/221781445619" target="_blank"><i class="fab fa-whatsapp"></i></a>
@@ -383,4 +495,5 @@
   <script src="style.js"></script>
   <script src="admin.js"></script>
 </body>
+
 </html>

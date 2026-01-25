@@ -46,7 +46,7 @@ body {
   body {
     animation: gradientShift 20s ease infinite;
   }
-  
+
   body::before {
     animation: pulse 25s ease-in-out infinite;
   }
@@ -59,7 +59,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 20% 50%, rgba(128, 77, 249, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(128, 77, 249, 0.08) 0%, transparent 50%),
     radial-gradient(circle at 40% 20%, rgba(128, 77, 249, 0.12) 0%, transparent 50%);
@@ -72,19 +72,24 @@ body::before {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.5;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.1);
@@ -107,7 +112,7 @@ body::before {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #804DF9 100%);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(102, 126, 234, 0.4),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset;
   z-index: 1000;
@@ -129,13 +134,12 @@ body::before {
   left: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    rgba(255, 255, 255, 0.4) 20%,
-    rgba(255, 255, 255, 0.7) 50%,
-    rgba(255, 255, 255, 0.4) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 20%,
+      rgba(255, 255, 255, 0.7) 50%,
+      rgba(255, 255, 255, 0.4) 80%,
+      transparent 100%);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
@@ -146,10 +150,13 @@ body::before {
 }
 
 @keyframes borderGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.5;
     transform: scaleX(0.8);
   }
+
   50% {
     opacity: 1;
     transform: scaleX(1);
@@ -163,11 +170,10 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent 100%);
   pointer-events: none;
 }
 
@@ -181,6 +187,7 @@ body::before {
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
@@ -188,7 +195,7 @@ body::before {
 
 .navbar.scrolled {
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 50%, rgba(128, 77, 249, 0.95) 100%);
-  box-shadow: 
+  box-shadow:
     0 10px 40px rgba(102, 126, 234, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.15) inset,
     0 -8px 30px rgba(128, 77, 249, 0.4);
@@ -212,7 +219,7 @@ body::before {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   background-size: 200% 200%;
-  text-shadow: 
+  text-shadow:
     0 2px 10px rgba(255, 255, 255, 0.4),
     0 0 20px rgba(255, 255, 255, 0.2);
   letter-spacing: 2px;
@@ -225,9 +232,12 @@ body::before {
 }
 
 @keyframes logoShimmer {
-  0%, 100% {
+
+  0%,
+  100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
@@ -240,11 +250,10 @@ body::before {
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.5) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.5) 100%);
   border-radius: 17px;
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -254,10 +263,13 @@ body::before {
 }
 
 @keyframes logoGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0;
     transform: scale(0.95);
   }
+
   50% {
     opacity: 0.6;
     transform: scale(1.05);
@@ -275,11 +287,10 @@ body::before {
   border-radius: 15px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
   background-clip: padding-box;
-  border-image: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.6),
-    rgba(255, 255, 255, 0.3),
-    rgba(255, 255, 255, 0.6)
-  ) 1;
+  border-image: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.6)) 1;
   opacity: 0;
   transition: opacity 0.4s ease;
   z-index: -1;
@@ -292,9 +303,12 @@ body::before {
 }
 
 @keyframes logoPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     filter: drop-shadow(0 6px 20px rgba(255, 255, 255, 0.7));
   }
+
   50% {
     filter: drop-shadow(0 8px 30px rgba(255, 255, 255, 1));
   }
@@ -307,11 +321,10 @@ body::before {
 
 .nav-brand .logo-text:hover::after {
   opacity: 1;
-  border-image: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 255, 255, 0.5),
-    rgba(255, 255, 255, 0.9)
-  ) 1;
+  border-image: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.9)) 1;
 }
 
 .nav-menu {
@@ -374,7 +387,7 @@ body::before {
 .nav-link:hover::before {
   opacity: 1;
   transform: scale(1);
-  box-shadow: 
+  box-shadow:
     0 4px 20px rgba(255, 255, 255, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
@@ -488,9 +501,12 @@ body::before {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
+
   50% {
     transform: translateY(-30px) rotate(180deg);
   }
@@ -575,7 +591,7 @@ body::before {
     white-space: normal;
     padding-right: 0;
   }
-  
+
   .hero-subtitle-wrapper::after {
     display: none;
   }
@@ -590,6 +606,7 @@ body::before {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -694,6 +711,28 @@ body::before {
 .hero-image {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-height: 300px;
+}
+
+.profile-image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px var(--shadow);
+  object-fit: contain;
+}
+
+/* Image inside profile card */
+.profile-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 25px;
+  display: block;
 }
 
 @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
@@ -751,7 +790,7 @@ body::before {
   height: 100%;
   left: 10%;
   top: 0;
-  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
   border-radius: 25px;
   z-index: 0;
   opacity: 0.5;
@@ -767,7 +806,7 @@ body::before {
   .profile-card:hover {
     transform: rotateY(10deg) rotateX(10deg);
   }
-  
+
   .profile-card:hover .profile-photo {
     transform: scale(1.05);
   }
@@ -796,6 +835,7 @@ body::before {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -812,12 +852,19 @@ body::before {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateX(-50%) translateY(0);
   }
+
   40% {
     transform: translateX(-50%) translateY(-10px);
   }
+
   60% {
     transform: translateX(-50%) translateY(-5px);
   }
@@ -828,6 +875,7 @@ body::before {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -839,6 +887,7 @@ body::before {
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -859,7 +908,7 @@ section {
   }
 }
 
-section > .container {
+section>.container {
   position: relative;
   z-index: 1;
 }
@@ -917,7 +966,7 @@ section > .container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 10% 20%, rgba(128, 77, 249, 0.05) 0%, transparent 50%),
     radial-gradient(circle at 90% 80%, rgba(128, 77, 249, 0.04) 0%, transparent 50%);
   z-index: -1;
@@ -941,7 +990,7 @@ section > .container {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .about-stats {
     flex-direction: row;
     justify-content: space-around;
@@ -1025,7 +1074,7 @@ section > .container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 80% 30%, rgba(128, 77, 249, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 20% 70%, rgba(128, 77, 249, 0.08) 0%, transparent 50%);
   z-index: -1;
@@ -1113,7 +1162,7 @@ section > .container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 50% 50%, rgba(128, 77, 249, 0.08) 0%, transparent 70%),
     radial-gradient(circle at 0% 100%, rgba(128, 77, 249, 0.06) 0%, transparent 50%);
   z-index: -1;
@@ -1279,7 +1328,7 @@ section > .container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 50% 50%, rgba(128, 77, 249, 0.08) 0%, transparent 70%),
     radial-gradient(circle at 0% 100%, rgba(128, 77, 249, 0.06) 0%, transparent 50%);
   z-index: -1;
@@ -1351,6 +1400,7 @@ section > .container {
   position: relative;
   height: 300px;
 }
+
 .activity-images-container.slider .activity-image-item {
   position: absolute;
   top: 0;
@@ -1358,6 +1408,7 @@ section > .container {
   width: 100%;
   height: 100%;
 }
+
 .activity-images-container.slider .activity-image-item img {
   width: 100%;
   height: 100%;
@@ -1386,6 +1437,7 @@ section > .container {
   height: 220px;
   position: relative;
 }
+
 .project-image-item {
   width: 100%;
   height: 100%;
@@ -1394,11 +1446,13 @@ section > .container {
   left: 0;
   display: none;
 }
+
 .project-image-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .project-images-container .project-image-item:first-child {
   display: block;
 }
@@ -1407,6 +1461,7 @@ section > .container {
 .project-images-container.slider {
   position: relative;
 }
+
 .project-images-container.slider .project-image-item {
   position: absolute;
 }
@@ -1738,7 +1793,7 @@ section > .container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 30% 40%, rgba(128, 77, 249, 0.09) 0%, transparent 50%),
     radial-gradient(circle at 70% 60%, rgba(128, 77, 249, 0.07) 0%, transparent 50%);
   z-index: -1;
@@ -1790,9 +1845,12 @@ section > .container {
 }
 
 @keyframes pulse-dot {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 4px var(--primary-color), 0 0 20px rgba(61, 97, 127, 0.5);
   }
+
   50% {
     box-shadow: 0 0 0 8px var(--primary-color), 0 0 30px rgba(61, 97, 127, 0.8);
   }
@@ -1865,7 +1923,7 @@ section > .container {
   left: 0;
   width: 100%;
   height: 100%;
-  background: 
+  background:
     radial-gradient(circle at 60% 30%, rgba(128, 77, 249, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 40% 80%, rgba(128, 77, 249, 0.08) 0%, transparent 50%);
   z-index: -1;
@@ -2040,7 +2098,7 @@ section > .container {
     width: 100%;
     text-align: center;
     transition: 0.3s ease;
-    box-shadow: 
+    box-shadow:
       0 10px 40px rgba(102, 126, 234, 0.5),
       0 0 0 1px rgba(255, 255, 255, 0.1) inset;
     padding: 1.5rem 0;
@@ -2076,7 +2134,7 @@ section > .container {
     overflow: hidden;
     max-width: 100%;
   }
-  
+
   .hero-subtitle-wrapper {
     font-size: 1rem;
   }
@@ -2229,7 +2287,8 @@ section > .container {
    INTERFACE ADMINISTRATION
    ============================================ */
 .project-placeholder {
-  display: none; /* Caché par défaut, visible uniquement pour admin */
+  display: none;
+  /* Caché par défaut, visible uniquement pour admin */
 }
 
 .project-card-dynamic {
@@ -2305,6 +2364,7 @@ section > .container {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -2328,6 +2388,7 @@ section > .container {
     transform: translateY(50px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -2418,5 +2479,3 @@ section > .container {
     font-size: 1.2rem;
   }
 }
-
-
