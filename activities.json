@@ -3,9 +3,14 @@
         "id": 1,
         "image": "images/tutorat.jpg",
         "title": "Tutorat",
-        "description": "Session de tutorat que j'ai animée pour aider les étudiants en algoritme et programmation.",
+        "description": "Session de tutorat que j'ai animée pour aider les étudiants en algoritme et programmation (1, 2 & 3).",
         "date": "Nov 2025",
-        "additionalImages": [],
+        "additionalImages": [
+            "images/tutorat1.jpeg",
+            "images/tutorat2.jpeg",
+            "images/tutorat3.jpeg",
+            "images/tutorat4.jpeg"
+        ],
         "createdAt": "2026-01-17T00:00:00.000Z"
     },
     {
