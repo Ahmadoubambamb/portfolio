@@ -826,6 +826,7 @@ function initDefaultActivities() {
         title: 'Tutorat',
         description: 'Session de tutorat que j\'ai animée pour aider les étudiants en algoritme et programmation.',
         date: 'Nov 2025',
+        additionalImages: ['images/tutorat1.jpeg', 'images/tutorat2.jpeg', 'images/tutorat3.jpeg', 'images/tutorat4.jpeg'],
         createdAt: new Date().toISOString()
       },
       {
@@ -834,7 +835,7 @@ function initDefaultActivities() {
         title: '72H du Club Informatique de l\'UGB',
         description: 'Participation aux 72 heures du club informatique de l\'Université Gaston Berger. Événement rassemblant tout les membres du club pour des activités de développement et d\'innovation.',
         date: 'Mai 2025',
-        additionalImages: ['images/avecLesAutreMembreDuClub.jpg', 'images/avecMonAmi.jpg'],
+        additionalImages: ['images/avecLesAutreMembreDuClub.jpg', 'images/jeux.jpeg'],
         createdAt: new Date().toISOString()
       },
       {
