@@ -825,7 +825,7 @@ function initDefaultActivities() {
         image: 'images/tutorat.jpg',
         title: 'Tutorat',
         description: 'Session de tutorat que j\'ai animée pour aider les étudiants en algoritme et programmation.',
-        date: 'Nov 2025',
+        date: 'Nov 2025 - Fev 2026',
         additionalImages: ['images/tutorat1.jpeg', 'images/tutorat2.jpeg', 'images/tutorat3.jpeg', 'images/tutorat4.jpeg'],
         createdAt: new Date().toISOString()
       },
